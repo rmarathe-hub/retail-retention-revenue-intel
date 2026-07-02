@@ -58,6 +58,6 @@ def test_metric_definitions_global_rules_finalized(metric_definitions_text: str)
 
 @pytest.mark.docs
 def test_planned_metrics_still_documented(metric_definitions_text: str) -> None:
-    assert "Planned Day 7" in metric_definitions_text
-    assert "mart_cohort_retention" in metric_definitions_text
+    assert "Planned Day 8" in metric_definitions_text
     assert "mart_customer_rfm" in metric_definitions_text
+    assert "mart_cohort_retention" in metric_definitions_text

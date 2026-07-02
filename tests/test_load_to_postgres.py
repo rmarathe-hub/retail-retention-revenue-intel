@@ -211,6 +211,6 @@ def test_validate_data_script_integration(project_root: Path) -> None:
     assert summary["connection"] == "ok"
     assert summary["all_checks_passed"] is True
     assert summary["load_validation"]["dim_customer"] == "ok"
-    assert len(summary["quality_checks"]) == 25
+    assert len(summary["quality_checks"]) == 27
     assert all(c["status"] == "ok" for c in summary["quality_checks"])
     assert summary["metrics"]["missing_customer_line_count"] == 242_870

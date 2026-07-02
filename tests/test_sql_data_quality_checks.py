@@ -22,8 +22,10 @@ EXPECTED_DQ_CHECKS = [
     "mart_monthly_revenue_rows",
     "mart_customer_orders_rows",
     "mart_executive_kpis_rows",
+    "mart_cohort_retention_rows",
+    "mart_cohort_distinct_months",
+    "cohort_month_zero_retention_mismatch",
     "mart_customer_rfm_empty",
-    "mart_cohort_retention_empty",
     "mart_revenue_at_risk_empty",
     "mart_product_performance_empty",
     "mart_country_performance_empty",
@@ -58,6 +60,9 @@ EXPECTED_VALUES = {
     "mart_monthly_revenue_rows": 25,
     "mart_customer_orders_rows": 5_881,
     "mart_executive_kpis_rows": 9,
+    "mart_cohort_retention_rows": 325,
+    "mart_cohort_distinct_months": 25,
+    "cohort_month_zero_retention_mismatch": 0,
 }
 
 

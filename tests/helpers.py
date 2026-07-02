@@ -71,6 +71,12 @@ EXECUTIVE_KPI_NAMES = [
     "total_revenue_customer_attributed",
 ]
 
+# Day 7 cohort contracts
+COHORT_RETENTION_ROWS = 325
+COHORT_DISTINCT_MONTHS = 25
+COHORT_AVG_MONTH3_RETENTION_RATE = 21.6088
+COHORT_AVG_MONTH3_REVENUE_RETENTION_RATE = 26.4364
+
 PROJECT_NAME = "Retail Retention & Revenue Intelligence"
 GITHUB_REPO = "ecommerce-retention-analytics-platform"
 

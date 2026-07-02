@@ -22,7 +22,6 @@ PREMATURE_COMPLETE_PHRASES = [
 
 
 NOT_YET_FILES = [
-    "sql/05_cohort_retention.sql",
     "sql/06_rfm_segmentation.sql",
     "sql/07_revenue_at_risk.sql",
     "sql/08_product_market_analysis.sql",
@@ -50,7 +49,7 @@ def test_metric_definitions_day6_metrics_locked(metric_definitions_text: str) ->
     assert "**Locked**" in metric_definitions_text
     assert "total_revenue" in metric_definitions_text
     assert "mart_executive_kpis" in metric_definitions_text
-    assert "Planned Day 7" in metric_definitions_text
+    assert "Planned Day 8" in metric_definitions_text
 
 
 @pytest.mark.docs

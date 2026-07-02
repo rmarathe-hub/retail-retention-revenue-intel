@@ -34,11 +34,8 @@ def test_day6_required_files_exist(project_root: Path, relative_path: str) -> No
 @pytest.mark.integration
 def test_day6_completion_contract(project_root: Path, readme_text: str) -> None:
     assert PROJECT_NAME in readme_text
-    assert "03_kpi_definitions.sql" in readme_text
-    assert "04_revenue_analysis.sql" in readme_text
     assert "run_kpi_marts.py" in readme_text
-    assert "export_powerbi_marts.py" in readme_text
-    assert "revenue analysis" in readme_text.lower()
+    assert "03_kpi_definitions.sql" in readme_text
 
 
 

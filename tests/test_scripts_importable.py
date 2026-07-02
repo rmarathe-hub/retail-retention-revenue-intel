@@ -32,6 +32,10 @@ from .conftest import load_module_from_path
             ["main", "run_kpi_marts"],
         ),
         (
+            "scripts/run_cohort_retention.py",
+            ["main", "run_cohort_retention"],
+        ),
+        (
             "scripts/export_powerbi_marts.py",
             ["main", "export_powerbi_marts"],
         ),
@@ -57,6 +61,7 @@ def test_scripts_have_main_guard(project_root: Path) -> None:
         "scripts/load_to_postgres.py",
         "scripts/validate_data.py",
         "scripts/run_kpi_marts.py",
+        "scripts/run_cohort_retention.py",
         "scripts/export_powerbi_marts.py",
     ):
         text = (project_root / script).read_text(encoding="utf-8")

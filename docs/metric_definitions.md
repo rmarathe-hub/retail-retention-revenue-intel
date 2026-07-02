@@ -2,7 +2,7 @@
 
 This document is the **source of truth** for KPI and analytical metric definitions. Each metric used in SQL marts or Power BI must appear here with definition, grain, and source table.
 
-> **Status:** Executive KPI and revenue analysis metrics **locked** (Day 6). Cohort, RFM, and revenue-at-risk metrics planned for Days 7–9.
+> **Status:** Executive KPI, revenue analysis, and **cohort retention** metrics locked through Day 7. RFM and revenue-at-risk planned for Days 8–9.
 
 ---
 
@@ -12,10 +12,11 @@ This document is the **source of truth** for KPI and analytical metric definitio
 |---------|------|-------|
 | **Order** | `COUNT(DISTINCT invoice_no)` where `is_canceled = FALSE` and `customer_id IS NOT NULL` | Canceled invoices (`C%` prefix) excluded |
 | **Customer** | Valid non-null `customer_id` with at least one non-canceled order | 5,881 customers meet this criterion |
+| **Cohort** | Customers grouped by first non-canceled `invoice_month` | 25 cohort months (2009-12 → 2011-12) |
 | **Line revenue** | `quantity * unit_price` (stored as `line_revenue`) | Returns net via negative quantity; canceled lines excluded from KPI revenue |
 | **Total revenue (company)** | `SUM(line_revenue)` where `is_canceled = FALSE` | Includes guest/non-registered lines (£20,755,215.33) |
 | **Customer-attributed revenue** | `SUM(line_revenue)` where `is_canceled = FALSE` and `customer_id IS NOT NULL` | Used for AOV, repeat rate, and customer KPIs (£17,685,460.64) |
-| **Reference date** | `2011-12-09` | Last date in dataset; used for recency and inactivity (Days 7–9) |
+| **Reference date** | `2011-12-09` | Last date in dataset; used for recency and inactivity |
 | **Repeat customer** | Customer with ≥ 2 distinct non-canceled orders | 72.35% of attributable customers |
 | **New vs returning revenue** | New = revenue in customer's first `invoice_month`; returning = all later months | See `mart_monthly_revenue` |
 
@@ -40,23 +41,35 @@ This document is the **source of truth** for KPI and analytical metric definitio
 | New vs Returning Revenue | Monthly split of first-purchase vs repeat revenue | Month | `mart_monthly_revenue` | **Locked** |
 | Customer Order Summary | Per-customer orders, revenue, first/last dates, repeat flag | Customer | `mart_customer_orders` | **Locked** — 5,881 rows |
 
+---
+
+## Day 7 Metrics (locked)
+
+| Metric | Definition | Grain | Source Table | Status |
+|--------|------------|-------|--------------|--------|
+| Cohort Retention Rate | `retained_customers / cohort_size × 100` in activity month N | Cohort × month | `mart_cohort_retention` (`retention_rate`) | **Locked** — 325 rows |
+| Revenue Retention Rate | `cohort_revenue in month N / cohort month-0 revenue × 100` | Cohort × month | `mart_cohort_retention` (`revenue_retention_rate`) | **Locked** |
+| Months Since First Purchase | Month offset from cohort month to activity month | Cohort × month | `mart_cohort_retention` | **Locked** — 0 to 24 |
+| Avg Month-3 Retention | Mean `retention_rate` where `months_since_first_purchase = 3` | Summary | `cohort_mart_summary.json` | **Locked** — 21.61% |
+| Avg Month-3 Revenue Retention | Mean `revenue_retention_rate` at month 3 | Summary | `cohort_mart_summary.json` | **Locked** — 26.44% |
+
 ### SQL implementation
 
 | File | Purpose |
 |------|---------|
 | `sql/03_kpi_definitions.sql` | Populates `mart_executive_kpis` (9 KPI rows) |
 | `sql/04_revenue_analysis.sql` | Populates `mart_monthly_revenue` and `mart_customer_orders` |
-| `scripts/run_kpi_marts.py` | Applies Day 6 SQL and writes `kpi_mart_summary.json` |
+| `sql/05_cohort_retention.sql` | Populates `mart_cohort_retention` (325 rows) |
+| `scripts/run_kpi_marts.py` | Applies Day 6 SQL |
+| `scripts/run_cohort_retention.py` | Applies Day 7 SQL and writes `cohort_mart_summary.json` |
 | `scripts/export_powerbi_marts.py` | Exports populated marts to `data/marts/*.csv` |
 
 ---
 
-## Planned Metrics (Days 7–9)
+## Planned Metrics (Days 8–9)
 
 | Metric | Definition | Grain | Source Table | Status |
 |--------|------------|-------|--------------|--------|
-| Cohort Retention Rate | % of cohort active in month N after first purchase | Cohort × month | `mart_cohort_retention` | Planned Day 7 |
-| Revenue Retention Rate | Cohort revenue in month N / cohort revenue in month 0 | Cohort × month | `mart_cohort_retention` | Planned Day 7 |
 | RFM Recency | Days from last purchase to reference date (2011-12-09) | Customer | `mart_customer_rfm` | Planned Day 8 |
 | RFM Frequency | Distinct order count per customer | Customer | `mart_customer_rfm` | Planned Day 8 |
 | RFM Monetary | Total net revenue per customer | Customer | `mart_customer_rfm` | Planned Day 8 |
@@ -71,5 +84,6 @@ This document is the **source of truth** for KPI and analytical metric definitio
 ## Related Documentation
 
 - [Business Problem](business_problem.md)
+- [Cohort Analysis Notes](cohort_analysis_notes.md)
 - [Data Quality Report](data_quality_report.md)
 - [Data Dictionary](data_dictionary.md)

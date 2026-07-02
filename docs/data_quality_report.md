@@ -122,7 +122,7 @@ Day 3 machine-readable summary: `data/processed/cleaning_summary.json`
 **SQL:** `sql/02_data_quality_checks.sql`  
 **Output:** `data/processed/validation_summary.json`
 
-After Day 4 load, `validate_data.py` runs **25 automated SQL checks** against Postgres:
+After Day 4 load, `validate_data.py` runs **27 automated SQL checks** against Postgres:
 
 | Category | Checks |
 |----------|--------|

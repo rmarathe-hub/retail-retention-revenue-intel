@@ -40,7 +40,7 @@ def test_validate_data_against_loaded_db(project_root: Path, validate_module) ->
     assert summary["table_counts"]["stg_transactions"] == CLEAN_OUTPUT_ROWS
     assert summary["table_counts"]["dim_customer"] == DB_DIM_CUSTOMER_COUNT
     assert summary["table_counts"]["dim_date"] == DB_DIM_DATE_COUNT
-    assert len(summary["quality_checks"]) == 25
+    assert len(summary["quality_checks"]) == 27
     assert all(c["status"] == "ok" for c in summary["quality_checks"])
     assert summary["metrics"]["missing_customer_line_count"] == EXCLUDED_MISSING_CUSTOMER
     assert summary["metrics"]["missing_customer_revenue_gbp"] > 0

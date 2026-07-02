@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** Executive KPI and revenue analysis marts implemented
+**Status:** Cohort retention analysis implemented
 
 ---
 
@@ -94,6 +94,7 @@ retail_retention_revenue_intel/
 │   ├── load_to_postgres.py         # Day 4
 │   ├── validate_data.py            # SQL data quality checks
 │   ├── run_kpi_marts.py            # KPI + revenue mart build
+│   ├── run_cohort_retention.py     # Cohort retention mart
 │   └── export_powerbi_marts.py     # Export marts to CSV
 ├── sql/
 │   ├── 01_schema.sql
@@ -133,12 +134,12 @@ python scripts/clean_online_retail.py       # Day 3
 python scripts/load_to_postgres.py          # Day 4 — apply schema + load raw/stg/dims
 python scripts/validate_data.py           # SQL data quality checks
 python scripts/run_kpi_marts.py         # Executive KPI + revenue marts
+python scripts/run_cohort_retention.py  # Cohort retention mart
 python scripts/export_powerbi_marts.py  # Export marts for Power BI
 
-# 3. SQL marts — run in order via psql or run_kpi_marts.py
-# psql -f sql/03_kpi_definitions.sql
-# psql -f sql/04_revenue_analysis.sql
-# ... 05-09 cohort, RFM, risk (Days 7-9)
+# 3. SQL marts — or use run_* scripts above
+# psql -f sql/05_cohort_retention.sql
+# ... 06-09 RFM, risk (Days 8-9)
 ```
 
 Configure Postgres via Docker on **host port 5433** (see [docs/postgres_setup.md](docs/postgres_setup.md)).
@@ -152,6 +153,7 @@ docker compose exec postgres pg_isready -U retail_user -d retail_analytics
 python scripts/load_to_postgres.py
 python scripts/validate_data.py
 python scripts/run_kpi_marts.py
+python scripts/run_cohort_retention.py
 pytest -q -m "db"
 ```
 

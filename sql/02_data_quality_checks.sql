@@ -61,16 +61,31 @@ FROM (
     FROM mart_executive_kpis
 
     UNION ALL
+    SELECT 'mart_cohort_retention_rows',
+           325,
+           COUNT(*)::bigint
+    FROM mart_cohort_retention
+
+    UNION ALL
+    SELECT 'mart_cohort_distinct_months',
+           25,
+           COUNT(DISTINCT cohort_month)::bigint
+    FROM mart_cohort_retention
+
+    UNION ALL
+    SELECT 'cohort_month_zero_retention_mismatch',
+           0,
+           COUNT(*)::bigint
+    FROM mart_cohort_retention
+    WHERE months_since_first_purchase = 0
+      AND retention_rate IS DISTINCT FROM 100.0000
+
+    -- Mart placeholders remain empty until Days 8-9
+    UNION ALL
     SELECT 'mart_customer_rfm_empty',
            0,
            COUNT(*)::bigint
     FROM mart_customer_rfm
-
-    UNION ALL
-    SELECT 'mart_cohort_retention_empty',
-           0,
-           COUNT(*)::bigint
-    FROM mart_cohort_retention
 
     UNION ALL
     SELECT 'mart_revenue_at_risk_empty',

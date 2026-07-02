@@ -55,7 +55,8 @@ def test_postgres_setup_doc_explains_internal_5432(postgres_setup_text: str) -> 
         ".venv",
         "gitignored",
         "02_data_quality_checks.sql",
-        "revenue analysis",
+        "cohort retention",
+        "retail-retention-revenue-intel",
     ],
 )
 def test_readme_extended_required_content(readme_text: str, required: str) -> None:
