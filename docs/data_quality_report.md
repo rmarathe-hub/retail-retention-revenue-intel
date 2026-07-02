@@ -1,6 +1,6 @@
 # Data Quality Report — Online Retail II
 
-**Status:** Week 1 Day 3 — cleaning pipeline implemented  
+**Status:** Cleaning pipeline + Postgres load + SQL validation implemented  
 **Profiling script:** `scripts/profile_raw_data.py`  
 **Raw data:** `data/raw/online_retail_II_combined.csv` (1,067,371 rows)
 **Cleaning script:** `scripts/clean_online_retail.py`  
@@ -112,13 +112,47 @@ Day 3 machine-readable summary: `data/processed/cleaning_summary.json`
 
 | Exclusion rule | Rows removed | Revenue impact |
 |----------------|--------------|----------------|
-| Null `Customer ID` after deduplication | 242,870 | KPI-level revenue impact calculated Day 5 SQL |
+| Null `Customer ID` after deduplication | 242,870 | See `validation_summary.json` → `metrics.missing_customer_revenue_gbp` |
 
 ---
 
-## Validation Checks (planned Day 5)
+## Validation Checks (SQL — implemented)
 
-See `sql/02_data_quality_checks.sql` for SQL-based validation after load to Postgres.
+**Script:** `python scripts/validate_data.py`  
+**SQL:** `sql/02_data_quality_checks.sql`  
+**Output:** `data/processed/validation_summary.json`
+
+After Day 4 load, `validate_data.py` runs **25 automated SQL checks** against Postgres:
+
+| Category | Checks |
+|----------|--------|
+| Row counts | `raw_online_retail` (1,067,371), `stg_transactions` (1,055,238), `dim_customer` (5,942), `dim_date` (739) |
+| Mart placeholders | All 8 mart tables empty (0 rows) until KPI SQL |
+| Flag volumes | Missing customer (242,870), canceled (19,433), returns (22,889), zero/neg price (6,196), invalid dates (0) |
+| Flag consistency | Zero mismatches between flags and underlying column logic |
+| Revenue math | Zero `line_revenue` mismatches (`quantity * unit_price`) |
+| Customer grain | 5,942 distinct non-null customers in staging |
+| Date range | 2009-12-01 → 2011-12-09 |
+
+### Missing-customer revenue impact
+
+Rows with null `customer_id` after deduplication cannot be used for cohort/RFM analysis. SQL calculates total `line_revenue` on flagged rows — reported in `validation_summary.json` → `metrics.missing_customer_revenue_gbp`.
+
+| Metric | Source |
+|--------|--------|
+| Excluded lines | 242,870 (`is_missing_customer = TRUE`) |
+| Revenue impact | **£2,638,407.51** total `line_revenue` on excluded lines (see `validation_summary.json`) |
+
+Reproduce:
+
+```bash
+source .venv/bin/activate
+cp .env.example .env
+docker compose up -d
+python scripts/load_to_postgres.py
+python scripts/validate_data.py
+pytest -q -m "db"
+```
 
 ---
 

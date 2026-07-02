@@ -96,6 +96,11 @@ def cleaning_summary_path(project_root: Path) -> Path:
 
 
 @pytest.fixture(scope="session")
+def dq_sql_text(project_root: Path) -> str:
+    return (project_root / "sql/02_data_quality_checks.sql").read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="session")
 def load_summary_path(project_root: Path) -> Path:
     return project_root / "data/processed/load_summary.json"
 

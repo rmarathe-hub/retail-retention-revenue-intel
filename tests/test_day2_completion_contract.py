@@ -12,8 +12,8 @@ def test_day2_completion_contract(project_root: Path, readme_text: str) -> None:
     assert (project_root / "scripts" / "clean_online_retail.py").exists()
     assert (project_root / "docs" / "data_dictionary.md").exists()
     assert (project_root / "docs" / "data_quality_report.md").exists()
-    assert "Week 1 Day" in readme_text
-    assert "profiles raw data" in readme_text
+    assert "download_or_import_data.py" in readme_text
+    assert "profile_raw_data.py" in readme_text
 
 
 @pytest.mark.data

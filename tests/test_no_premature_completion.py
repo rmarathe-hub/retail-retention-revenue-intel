@@ -22,7 +22,6 @@ PREMATURE_COMPLETE_PHRASES = [
 
 
 NOT_YET_FILES = [
-    "sql/02_data_quality_checks.sql",
     "sql/03_kpi_definitions.sql",
     "sql/04_revenue_analysis.sql",
     "sql/05_cohort_retention.sql",

@@ -54,8 +54,8 @@ def test_postgres_setup_doc_explains_internal_5432(postgres_setup_text: str) -> 
         "pip install -r requirements.txt",
         ".venv",
         "gitignored",
-        "Week 1 Day 4",
-        "ecommerce-retention-analytics-platform",
+        "data quality validation",
+        "retail-retention-revenue-intel",
     ],
 )
 def test_readme_extended_required_content(readme_text: str, required: str) -> None:

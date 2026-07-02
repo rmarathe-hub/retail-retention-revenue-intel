@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** Week 1 Day 4 — PostgreSQL schema and load pipeline implemented
+**Status:** PostgreSQL warehouse loaded — SQL data quality validation implemented
 
 ---
 
@@ -119,8 +119,8 @@ retail_retention_revenue_intel/
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/rmarathe-hub/ecommerce-retention-analytics-platform.git
-cd ecommerce-retention-analytics-platform
+git clone https://github.com/rmarathe-hub/retail-retention-revenue-intel.git
+cd retail-retention-revenue-intel
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -130,7 +130,7 @@ python scripts/download_or_import_data.py   # Day 2 — downloads xlsx, creates 
 python scripts/profile_raw_data.py          # Day 2 — profiles raw data
 python scripts/clean_online_retail.py       # Day 3
 python scripts/load_to_postgres.py          # Day 4 — apply schema + load raw/stg/dims
-python scripts/validate_data.py           # Day 5
+python scripts/validate_data.py           # SQL data quality checks (02_data_quality_checks.sql)
 
 # 3. SQL marts — run in order via psql or your SQL client
 # psql -f sql/01_schema.sql

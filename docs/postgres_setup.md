@@ -36,6 +36,8 @@ python scripts/validate_data.py
 pytest -q -m "db"
 ```
 
+`validate_data.py` runs `sql/02_data_quality_checks.sql` (25 checks) and writes `data/processed/validation_summary.json`.
+
 ## Environment variables
 
 Configured in `.env` (from `.env.example`):

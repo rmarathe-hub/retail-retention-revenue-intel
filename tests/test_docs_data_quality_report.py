@@ -20,7 +20,9 @@ import pytest
         "92.0%",
         "retail_transactions_clean.csv",
         "retail_transactions_customer_level.csv",
-        "do not silently drop",
+        "02_data_quality_checks.sql",
+        "validation_summary.json",
+        "missing_customer_revenue_gbp",
     ],
 )
 def test_data_quality_report_contains_expected_numbers(
@@ -33,6 +35,6 @@ def test_data_quality_report_contains_expected_numbers(
 def test_data_quality_report_mentions_flag_not_blind_delete(data_quality_text: str) -> None:
     lowered = data_quality_text.lower()
     assert "flag" in lowered
-    assert "planned" in lowered
-    assert "day 3" in lowered
+    assert "do not silently drop" in lowered
+    assert "02_data_quality_checks.sql" in lowered
 

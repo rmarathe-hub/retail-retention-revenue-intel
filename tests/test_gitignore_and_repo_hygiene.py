@@ -99,5 +99,6 @@ def test_no_obvious_secret_files_tracked(project_root: Path) -> None:
             token in path.lower()
             for token in ("secret", "credential", "private_key", "id_rsa", ".pem")
         )
+        and not path.endswith("tests/test_secrets_hygiene.py")
     ]
     assert suspicious == []

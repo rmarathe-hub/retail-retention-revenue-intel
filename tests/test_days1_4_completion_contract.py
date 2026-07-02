@@ -48,6 +48,5 @@ def test_days1_4_required_files_exist(project_root: Path, relative_path: str) ->
 @pytest.mark.integration
 def test_days1_4_completion_contract(project_root: Path, readme_text: str) -> None:
     assert PROJECT_NAME in readme_text
-    assert "Week 1 Day 4" in readme_text
     for script in DAY2_SCRIPTS + DAY3_SCRIPTS + ["scripts/load_to_postgres.py", "scripts/validate_data.py"]:
         assert (project_root / script).exists()

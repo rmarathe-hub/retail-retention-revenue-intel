@@ -16,7 +16,8 @@ import pytest
         "SQL",
         "Postgres",
         "Power BI",
-        "Week 1 Day",
+        "02_data_quality_checks.sql",
+        "validate_data.py",
         "download_or_import_data.py",
         "profile_raw_data.py",
         ".venv",
@@ -39,8 +40,8 @@ def test_readme_contains_data_lineage(readme_text: str) -> None:
 
 @pytest.mark.docs
 def test_readme_day3_script_reference(readme_text: str) -> None:
-    assert "scripts/clean_online_retail.py       # Day 3" in readme_text
-    assert "Status:** Week 1 Day" in readme_text
+    assert "scripts/clean_online_retail.py" in readme_text
+    assert "data quality validation" in readme_text.lower()
 
 
 @pytest.mark.docs
