@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: retail_retention_postgres
+    environment:
+      POSTGRES_DB: retail_analytics
+      POSTGRES_USER: retail_user
+      POSTGRES_PASSWORD: retail_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U retail_user -d retail_analytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  postgres_data:
