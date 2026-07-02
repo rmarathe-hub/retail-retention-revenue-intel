@@ -44,6 +44,33 @@ DB_PASSWORD = "retail_pass"
 DB_DIM_CUSTOMER_COUNT = 5_942
 DB_DIM_DATE_COUNT = 739
 
+# Day 6 mart contracts
+EXECUTIVE_KPI_COUNT = 9
+MART_MONTHLY_REVENUE_ROWS = 25
+MART_CUSTOMER_ORDERS_ROWS = 5_881
+KPI_TOTAL_REVENUE = 20_755_215.3280
+KPI_TOTAL_REVENUE_CUSTOMER = 17_685_460.6380
+KPI_TOTAL_ORDERS = 36_975
+KPI_TOTAL_CUSTOMERS = 5_881
+KPI_AOV = 478.3086
+KPI_REVENUE_PER_CUSTOMER = 3_007.2200
+KPI_REPEAT_PURCHASE_RATE = 72.3516
+KPI_ONE_TIME_BUYER_RATE = 27.6484
+KPI_CANCELLATION_LINE_RATE = 1.8416
+KPI_REFERENCE_DATE = "2011-12-09"
+
+EXECUTIVE_KPI_NAMES = [
+    "average_order_value",
+    "cancellation_line_rate",
+    "one_time_buyer_rate",
+    "repeat_purchase_rate",
+    "revenue_per_customer",
+    "total_customers",
+    "total_orders",
+    "total_revenue",
+    "total_revenue_customer_attributed",
+]
+
 PROJECT_NAME = "Retail Retention & Revenue Intelligence"
 GITHUB_REPO = "ecommerce-retention-analytics-platform"
 

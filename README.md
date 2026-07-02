@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** PostgreSQL warehouse loaded — SQL data quality validation implemented
+**Status:** Executive KPI and revenue analysis marts implemented
 
 ---
 
@@ -92,8 +92,9 @@ retail_retention_revenue_intel/
 │   ├── profile_raw_data.py           # Day 2
 │   ├── clean_online_retail.py      # Day 3
 │   ├── load_to_postgres.py         # Day 4
-│   ├── validate_data.py            # Day 5
-│   └── export_powerbi_marts.py     # Day 6+
+│   ├── validate_data.py            # SQL data quality checks
+│   ├── run_kpi_marts.py            # KPI + revenue mart build
+│   └── export_powerbi_marts.py     # Export marts to CSV
 ├── sql/
 │   ├── 01_schema.sql
 │   ├── 02_data_quality_checks.sql
@@ -130,15 +131,14 @@ python scripts/download_or_import_data.py   # Day 2 — downloads xlsx, creates 
 python scripts/profile_raw_data.py          # Day 2 — profiles raw data
 python scripts/clean_online_retail.py       # Day 3
 python scripts/load_to_postgres.py          # Day 4 — apply schema + load raw/stg/dims
-python scripts/validate_data.py           # SQL data quality checks (02_data_quality_checks.sql)
+python scripts/validate_data.py           # SQL data quality checks
+python scripts/run_kpi_marts.py         # Executive KPI + revenue marts
+python scripts/export_powerbi_marts.py  # Export marts for Power BI
 
-# 3. SQL marts — run in order via psql or your SQL client
-# psql -f sql/01_schema.sql
-# psql -f sql/02_data_quality_checks.sql
-# ... through 09_executive_summary.sql
-
-# 4. Export for Power BI (Week 2)
-python scripts/export_powerbi_marts.py
+# 3. SQL marts — run in order via psql or run_kpi_marts.py
+# psql -f sql/03_kpi_definitions.sql
+# psql -f sql/04_revenue_analysis.sql
+# ... 05-09 cohort, RFM, risk (Days 7-9)
 ```
 
 Configure Postgres via Docker on **host port 5433** (see [docs/postgres_setup.md](docs/postgres_setup.md)).
@@ -151,6 +151,7 @@ docker compose ps
 docker compose exec postgres pg_isready -U retail_user -d retail_analytics
 python scripts/load_to_postgres.py
 python scripts/validate_data.py
+python scripts/run_kpi_marts.py
 pytest -q -m "db"
 ```
 

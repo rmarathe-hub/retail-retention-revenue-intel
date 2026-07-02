@@ -22,14 +22,11 @@ PREMATURE_COMPLETE_PHRASES = [
 
 
 NOT_YET_FILES = [
-    "sql/03_kpi_definitions.sql",
-    "sql/04_revenue_analysis.sql",
     "sql/05_cohort_retention.sql",
     "sql/06_rfm_segmentation.sql",
     "sql/07_revenue_at_risk.sql",
     "sql/08_product_market_analysis.sql",
     "sql/09_executive_summary.sql",
-    "scripts/export_powerbi_marts.py",
     "dashboard/Retail_Retention_Revenue_Intelligence.pbix",
 ]
 
@@ -49,6 +46,14 @@ def test_day5_plus_files_not_present_yet(project_root: Path, relative_path: str)
 
 
 @pytest.mark.docs
-def test_metric_definitions_still_has_tbd_entries(metric_definitions_text: str) -> None:
-    assert "TBD" in metric_definitions_text
-    assert "Day 6" in metric_definitions_text or "locked by" in metric_definitions_text
+def test_metric_definitions_day6_metrics_locked(metric_definitions_text: str) -> None:
+    assert "**Locked**" in metric_definitions_text
+    assert "total_revenue" in metric_definitions_text
+    assert "mart_executive_kpis" in metric_definitions_text
+    assert "Planned Day 7" in metric_definitions_text
+
+
+@pytest.mark.docs
+def test_metric_definitions_no_tbd_on_locked_metrics(metric_definitions_text: str) -> None:
+    locked_section = metric_definitions_text.split("## Planned Metrics")[0]
+    assert "TBD" not in locked_section

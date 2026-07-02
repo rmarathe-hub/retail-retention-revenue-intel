@@ -25,7 +25,15 @@ from .conftest import load_module_from_path
         ),
         (
             "scripts/validate_data.py",
-            ["main", "run_validation"],
+            ["main", "run_validation", "run_sql_quality_checks"],
+        ),
+        (
+            "scripts/run_kpi_marts.py",
+            ["main", "run_kpi_marts"],
+        ),
+        (
+            "scripts/export_powerbi_marts.py",
+            ["main", "export_powerbi_marts"],
         ),
         (
             "scripts/db_config.py",
@@ -48,6 +56,8 @@ def test_scripts_have_main_guard(project_root: Path) -> None:
         "scripts/profile_raw_data.py",
         "scripts/load_to_postgres.py",
         "scripts/validate_data.py",
+        "scripts/run_kpi_marts.py",
+        "scripts/export_powerbi_marts.py",
     ):
         text = (project_root / script).read_text(encoding="utf-8")
         assert 'if __name__ == "__main__":' in text

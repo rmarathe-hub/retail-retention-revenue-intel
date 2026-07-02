@@ -41,18 +41,24 @@ FROM (
            COUNT(*)::bigint
     FROM dim_date
 
-    -- Mart placeholders should remain empty until KPI SQL (Days 6-9)
+    -- Day 6 marts populated by 03/04 SQL
     UNION ALL
-    SELECT 'mart_monthly_revenue_empty',
-           0,
+    SELECT 'mart_monthly_revenue_rows',
+           25,
            COUNT(*)::bigint
     FROM mart_monthly_revenue
 
     UNION ALL
-    SELECT 'mart_customer_orders_empty',
-           0,
+    SELECT 'mart_customer_orders_rows',
+           5881,
            COUNT(*)::bigint
     FROM mart_customer_orders
+
+    UNION ALL
+    SELECT 'mart_executive_kpis_rows',
+           9,
+           COUNT(*)::bigint
+    FROM mart_executive_kpis
 
     UNION ALL
     SELECT 'mart_customer_rfm_empty',
@@ -83,12 +89,6 @@ FROM (
            0,
            COUNT(*)::bigint
     FROM mart_country_performance
-
-    UNION ALL
-    SELECT 'mart_executive_kpis_empty',
-           0,
-           COUNT(*)::bigint
-    FROM mart_executive_kpis
 
     -- Day 3 flag volumes on stg_transactions (after deduplication)
     UNION ALL

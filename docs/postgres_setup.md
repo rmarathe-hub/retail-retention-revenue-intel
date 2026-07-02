@@ -33,10 +33,13 @@ docker compose ps
 docker compose exec postgres pg_isready -U retail_user -d retail_analytics
 python scripts/load_to_postgres.py
 python scripts/validate_data.py
+python scripts/run_kpi_marts.py
 pytest -q -m "db"
 ```
 
 `validate_data.py` runs `sql/02_data_quality_checks.sql` (25 checks) and writes `data/processed/validation_summary.json`.
+
+`run_kpi_marts.py` applies `sql/03_kpi_definitions.sql` and `sql/04_revenue_analysis.sql`, then writes `data/processed/kpi_mart_summary.json`.
 
 ## Environment variables
 

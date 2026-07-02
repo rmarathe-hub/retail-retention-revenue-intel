@@ -17,7 +17,9 @@ import pytest
         "Postgres",
         "Power BI",
         "02_data_quality_checks.sql",
-        "validate_data.py",
+        "03_kpi_definitions.sql",
+        "run_kpi_marts.py",
+        "export_powerbi_marts.py",
         "download_or_import_data.py",
         "profile_raw_data.py",
         ".venv",
@@ -41,7 +43,7 @@ def test_readme_contains_data_lineage(readme_text: str) -> None:
 @pytest.mark.docs
 def test_readme_day3_script_reference(readme_text: str) -> None:
     assert "scripts/clean_online_retail.py" in readme_text
-    assert "data quality validation" in readme_text.lower()
+    assert "revenue analysis" in readme_text.lower()
 
 
 @pytest.mark.docs

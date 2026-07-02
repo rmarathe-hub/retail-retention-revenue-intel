@@ -19,14 +19,14 @@ EXPECTED_DQ_CHECKS = [
     "stg_row_count",
     "dim_customer_count",
     "dim_date_count",
-    "mart_monthly_revenue_empty",
-    "mart_customer_orders_empty",
+    "mart_monthly_revenue_rows",
+    "mart_customer_orders_rows",
+    "mart_executive_kpis_rows",
     "mart_customer_rfm_empty",
     "mart_cohort_retention_empty",
     "mart_revenue_at_risk_empty",
     "mart_product_performance_empty",
     "mart_country_performance_empty",
-    "mart_executive_kpis_empty",
     "missing_customer_lines",
     "canceled_lines",
     "return_lines",
@@ -55,6 +55,9 @@ EXPECTED_VALUES = {
     "min_invoice_date_key": 20091201,
     "max_invoice_date_key": 20111209,
     "stg_distinct_customers": DB_DIM_CUSTOMER_COUNT,
+    "mart_monthly_revenue_rows": 25,
+    "mart_customer_orders_rows": 5_881,
+    "mart_executive_kpis_rows": 9,
 }
 
 
