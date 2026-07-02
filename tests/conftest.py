@@ -105,6 +105,51 @@ def load_summary_path(project_root: Path) -> Path:
     return project_root / "data/processed/load_summary.json"
 
 
+@pytest.fixture(scope="session")
+def validation_summary_path(project_root: Path) -> Path:
+    return project_root / "data/processed/validation_summary.json"
+
+
+@pytest.fixture(scope="session")
+def kpi_mart_summary_path(project_root: Path) -> Path:
+    return project_root / "data/processed/kpi_mart_summary.json"
+
+
+@pytest.fixture(scope="session")
+def cohort_mart_summary_path(project_root: Path) -> Path:
+    return project_root / "data/processed/cohort_mart_summary.json"
+
+
+@pytest.fixture(scope="session")
+def marts_dir(project_root: Path) -> Path:
+    return project_root / "data/marts"
+
+
+@pytest.fixture(scope="session")
+def kpi_sql_text(project_root: Path) -> str:
+    return (project_root / "sql/03_kpi_definitions.sql").read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="session")
+def revenue_sql_text(project_root: Path) -> str:
+    return (project_root / "sql/04_revenue_analysis.sql").read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="session")
+def cohort_sql_text(project_root: Path) -> str:
+    return (project_root / "sql/05_cohort_retention.sql").read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="session")
+def cohort_analysis_notes_text(project_root: Path) -> str:
+    return (project_root / "docs/cohort_analysis_notes.md").read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="session")
+def gitignore_text(project_root: Path) -> str:
+    return (project_root / ".gitignore").read_text(encoding="utf-8")
+
+
 def load_module_from_path(module_name: str, path: Path):
     scripts_dir = str(path.parent)
     if scripts_dir not in sys.path:

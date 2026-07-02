@@ -80,10 +80,9 @@ FROM (
     WHERE months_since_first_purchase = 0
       AND retention_rate IS DISTINCT FROM 100.0000
 
-    -- Mart placeholders remain empty until Days 8-9
     UNION ALL
-    SELECT 'mart_customer_rfm_empty',
-           0,
+    SELECT 'mart_customer_rfm_rows',
+           5881,
            COUNT(*)::bigint
     FROM mart_customer_rfm
 

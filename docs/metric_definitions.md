@@ -2,7 +2,7 @@
 
 This document is the **source of truth** for KPI and analytical metric definitions. Each metric used in SQL marts or Power BI must appear here with definition, grain, and source table.
 
-> **Status:** Executive KPI, revenue analysis, and **cohort retention** metrics locked through Day 7. RFM and revenue-at-risk planned for Days 8–9.
+> **Status:** Executive KPI, revenue analysis, cohort retention, and **RFM segmentation** metrics locked through Day 8. Revenue-at-risk planned for Day 9.
 
 ---
 
@@ -66,14 +66,31 @@ This document is the **source of truth** for KPI and analytical metric definitio
 
 ---
 
-## Planned Metrics (Days 8–9)
+## Day 8 Metrics (locked)
 
 | Metric | Definition | Grain | Source Table | Status |
 |--------|------------|-------|--------------|--------|
-| RFM Recency | Days from last purchase to reference date (2011-12-09) | Customer | `mart_customer_rfm` | Planned Day 8 |
-| RFM Frequency | Distinct order count per customer | Customer | `mart_customer_rfm` | Planned Day 8 |
-| RFM Monetary | Total net revenue per customer | Customer | `mart_customer_rfm` | Planned Day 8 |
-| Customer Segment | RFM-based label (Champions, At Risk, etc.) | Customer | `mart_customer_rfm` | Planned Day 8 |
+| RFM Recency | Days from last purchase to reference date (`2011-12-09`) | Customer | `mart_customer_rfm` (`recency_days`) | **Locked** — avg 200.99 days |
+| RFM Frequency | Distinct non-canceled invoice count per customer | Customer | `mart_customer_rfm` (`frequency_orders`) | **Locked** — avg 6.29 orders |
+| RFM Monetary | Total net revenue per customer on non-canceled lines | Customer | `mart_customer_rfm` (`monetary_value`) | **Locked** — avg £3,007.22 |
+| RFM Scores | Quintile scores 1–5 for R, F, M | Customer | `mart_customer_rfm` (`r_score`, `f_score`, `m_score`) | **Locked** |
+| Customer Segment | Rule-based RFM label (Champions, At Risk, etc.) | Customer | `mart_customer_rfm` (`customer_segment`) | **Locked** — 5,881 rows |
+| Champions Count | Customers in `Champions` segment | Summary | `rfm_mart_summary.json` | **Locked** — 1,343 |
+| At Risk Count | Customers in `At Risk` segment | Summary | `rfm_mart_summary.json` | **Locked** — 543 |
+
+### SQL implementation
+
+| File | Purpose |
+|------|---------|
+| `sql/06_rfm_segmentation.sql` | Populates `mart_customer_rfm` (5,881 rows) |
+| `scripts/run_rfm_segmentation.py` | Applies Day 8 SQL and writes `rfm_mart_summary.json` |
+
+---
+
+## Planned Metrics (Day 9)
+
+| Metric | Definition | Grain | Source Table | Status |
+|--------|------------|-------|--------------|--------|
 | Revenue at Risk | Historical spend from high-value inactive customers | Customer | `mart_revenue_at_risk` | Planned Day 9 |
 | Inactive (90/120/180d) | No purchase for N+ days since last invoice | Customer | `mart_revenue_at_risk` | Planned Day 9 |
 | Recoverable Revenue | Estimated revenue if X% of inactive customers reactivate | Scenario | `mart_revenue_at_risk` | Planned Day 9 |
@@ -85,5 +102,6 @@ This document is the **source of truth** for KPI and analytical metric definitio
 
 - [Business Problem](business_problem.md)
 - [Cohort Analysis Notes](cohort_analysis_notes.md)
+- [RFM Analysis Notes](rfm_analysis_notes.md)
 - [Data Quality Report](data_quality_report.md)
 - [Data Dictionary](data_dictionary.md)

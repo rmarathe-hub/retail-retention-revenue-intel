@@ -25,7 +25,7 @@ EXPECTED_DQ_CHECKS = [
     "mart_cohort_retention_rows",
     "mart_cohort_distinct_months",
     "cohort_month_zero_retention_mismatch",
-    "mart_customer_rfm_empty",
+    "mart_customer_rfm_rows",
     "mart_revenue_at_risk_empty",
     "mart_product_performance_empty",
     "mart_country_performance_empty",

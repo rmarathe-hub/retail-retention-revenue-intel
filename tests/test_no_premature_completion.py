@@ -22,7 +22,6 @@ PREMATURE_COMPLETE_PHRASES = [
 
 
 NOT_YET_FILES = [
-    "sql/06_rfm_segmentation.sql",
     "sql/07_revenue_at_risk.sql",
     "sql/08_product_market_analysis.sql",
     "sql/09_executive_summary.sql",
@@ -45,11 +44,11 @@ def test_day5_plus_files_not_present_yet(project_root: Path, relative_path: str)
 
 
 @pytest.mark.docs
-def test_metric_definitions_day6_metrics_locked(metric_definitions_text: str) -> None:
+def test_metric_definitions_day8_metrics_locked(metric_definitions_text: str) -> None:
     assert "**Locked**" in metric_definitions_text
-    assert "total_revenue" in metric_definitions_text
-    assert "mart_executive_kpis" in metric_definitions_text
-    assert "Planned Day 8" in metric_definitions_text
+    assert "Day 8 Metrics (locked)" in metric_definitions_text
+    assert "mart_customer_rfm" in metric_definitions_text
+    assert "Planned Day 9" in metric_definitions_text
 
 
 @pytest.mark.docs

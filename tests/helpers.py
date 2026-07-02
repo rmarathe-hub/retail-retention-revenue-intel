@@ -1,4 +1,4 @@
-"""Shared helpers and constants for Days 1-4 test suite."""
+"""Shared helpers and constants for Week 1 (Days 1-7) test suite."""
 
 from __future__ import annotations
 
@@ -77,8 +77,138 @@ COHORT_DISTINCT_MONTHS = 25
 COHORT_AVG_MONTH3_RETENTION_RATE = 21.6088
 COHORT_AVG_MONTH3_REVENUE_RETENTION_RATE = 26.4364
 
+# Day 8 RFM contracts
+MART_CUSTOMER_RFM_ROWS = 5_881
+RFM_CHAMPIONS_COUNT = 1_343
+RFM_AT_RISK_COUNT = 543
+RFM_AVG_RECENCY_DAYS = 200.9929
+RFM_AVG_FREQUENCY_ORDERS = 6.2872
+RFM_AVG_MONETARY_VALUE = 3_007.2200
+RFM_SEGMENT_COUNTS = {
+    "About to Sleep": 639,
+    "At Risk": 543,
+    "Cannot Lose Them": 265,
+    "Champions": 1343,
+    "Hibernating": 906,
+    "Loyal Customers": 447,
+    "Need Attention": 286,
+    "New Customers": 443,
+    "Others": 215,
+    "Potential Loyalists": 429,
+    "Promising": 365,
+}
+
+# Day 5 validation contracts
+DQ_CHECK_COUNT = 27
+MISSING_CUSTOMER_REVENUE_GBP = 2_638_407.51
+
+DQ_CHECK_NAMES = [
+    "raw_row_count",
+    "stg_row_count",
+    "dim_customer_count",
+    "dim_date_count",
+    "mart_monthly_revenue_rows",
+    "mart_customer_orders_rows",
+    "mart_executive_kpis_rows",
+    "mart_cohort_retention_rows",
+    "mart_cohort_distinct_months",
+    "cohort_month_zero_retention_mismatch",
+    "mart_customer_rfm_rows",
+    "mart_revenue_at_risk_empty",
+    "mart_product_performance_empty",
+    "mart_country_performance_empty",
+    "missing_customer_lines",
+    "canceled_lines",
+    "return_lines",
+    "zero_or_negative_price_lines",
+    "invalid_invoice_date_lines",
+    "canceled_flag_mismatch",
+    "return_flag_mismatch",
+    "missing_customer_flag_mismatch",
+    "zero_price_flag_mismatch",
+    "line_revenue_mismatch",
+    "stg_distinct_customers",
+    "min_invoice_date_key",
+    "max_invoice_date_key",
+]
+
+POPULATED_MARTS = {
+    "mart_executive_kpis": EXECUTIVE_KPI_COUNT,
+    "mart_monthly_revenue": MART_MONTHLY_REVENUE_ROWS,
+    "mart_customer_orders": MART_CUSTOMER_ORDERS_ROWS,
+    "mart_cohort_retention": COHORT_RETENTION_ROWS,
+    "mart_customer_rfm": MART_CUSTOMER_RFM_ROWS,
+}
+
+EMPTY_FUTURE_MARTS = [
+    "mart_revenue_at_risk",
+    "mart_product_performance",
+    "mart_country_performance",
+]
+
+WEEK1_SCRIPTS = [
+    "scripts/download_or_import_data.py",
+    "scripts/profile_raw_data.py",
+    "scripts/clean_online_retail.py",
+    "scripts/db_config.py",
+    "scripts/load_to_postgres.py",
+    "scripts/validate_data.py",
+    "scripts/run_kpi_marts.py",
+    "scripts/export_powerbi_marts.py",
+    "scripts/run_cohort_retention.py",
+    "scripts/run_rfm_segmentation.py",
+]
+
+WEEK1_SQL_FILES = [
+    "sql/01_schema.sql",
+    "sql/02_data_quality_checks.sql",
+    "sql/03_kpi_definitions.sql",
+    "sql/04_revenue_analysis.sql",
+    "sql/05_cohort_retention.sql",
+    "sql/06_rfm_segmentation.sql",
+]
+
+WEEK1_DOCS = [
+    "docs/business_problem.md",
+    "docs/metric_definitions.md",
+    "docs/data_dictionary.md",
+    "docs/data_quality_report.md",
+    "docs/postgres_setup.md",
+    "docs/cohort_analysis_notes.md",
+    "docs/rfm_analysis_notes.md",
+]
+
+DAY8_PLUS_FILES = [
+    "sql/07_revenue_at_risk.sql",
+    "sql/08_product_market_analysis.sql",
+    "sql/09_executive_summary.sql",
+    "dashboard/Retail_Retention_Revenue_Intelligence.pbix",
+]
+
+PORT_SCAN_PATHS = [
+    "docker-compose.yml",
+    ".env.example",
+    "README.md",
+    "docs/postgres_setup.md",
+    "scripts/db_config.py",
+    "scripts/load_to_postgres.py",
+    "scripts/validate_data.py",
+    "scripts/run_kpi_marts.py",
+    "scripts/run_cohort_retention.py",
+    "scripts/run_rfm_segmentation.py",
+    "scripts/export_powerbi_marts.py",
+]
+
+FORBIDDEN_HOST_PORT_PATTERNS = [
+    "POSTGRES_PORT=5432",
+    "localhost:5432",
+    "@localhost:5432/",
+    '"5432:5432"',
+    "'5432:5432'",
+]
+
 PROJECT_NAME = "Retail Retention & Revenue Intelligence"
-GITHUB_REPO = "ecommerce-retention-analytics-platform"
+GITHUB_REPO = "retail-retention-revenue-intel"
 
 CLEAN_COLUMNS = [
     "invoice_no",
