@@ -64,8 +64,9 @@ def test_readme_extended_required_content(readme_text: str, required: str) -> No
 
 
 @pytest.mark.docs
-def test_readme_power_bi_not_complete(readme_text: str) -> None:
-    assert "Screenshots coming Week 2" in readme_text or "coming Week 2" in readme_text
+def test_readme_power_bi_screenshot_slots_documented(readme_text: str) -> None:
+    assert "Add after Power BI Desktop build" in readme_text
+    assert "page1_executive_overview.png" in readme_text
 
 
 @pytest.mark.docs

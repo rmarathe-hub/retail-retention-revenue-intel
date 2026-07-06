@@ -47,6 +47,7 @@ DASHBOARD_README_SNIPPETS = [
     "powerbi_dashboard_guide.md",
     "powerbi_export_manifest.json",
     "screenshots",
+    "portfolio_case_study.md",
 ]
 
 

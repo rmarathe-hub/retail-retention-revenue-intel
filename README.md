@@ -1,43 +1,34 @@
 # Retail Retention & Revenue Intelligence
 
-End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
+**Portfolio case study** — end-to-end retention and revenue analytics on **1,067,371** real UCI Online Retail II transactions (Dec 2009 – Dec 2011) for a UK giftware retailer.
 
-**Status:** Power BI pages 1–6 — executive, cohort, RFM, at-risk, product/market, and action plan build guides ready
-
----
-
-## Overview
-
-Built an analytics pipeline using **Python**, **SQL**, **Postgres**, and **Power BI** to analyze customer retention, repeat purchase behavior, and revenue risk for a UK-based online retailer.
+Built with **Python**, **SQL**, **Postgres**, and **Power BI** to answer: *Who returns? Who goes inactive? Where is revenue concentrated? What should marketing and leadership do next?*
 
 | | |
 |---|---|
 | **Dataset** | [UCI Online Retail II](https://archive.ics.uci.edu/dataset/502/online+retail+ii) |
-| **Records** | ~1,067,371 transaction rows |
-| **Period** | December 1, 2009 – December 9, 2011 |
-| **Business** | UK non-store giftware retailer |
+| **Valid customers** | 5,881 (non-null ID, ≥1 non-canceled order) |
+| **Customer-attributed revenue** | £17,685,460.64 |
+| **SQL marts** | 8 populated tables · 27 automated DQ checks |
+| **Dashboard** | 6-page Power BI model (build guide + CSV exports ready) |
 
 ---
 
-## Business Problem
+## Case Study
 
-A UK online retailer needs to understand who returns, who goes inactive, where revenue is concentrated, and which customer segments to target for win-back or loyalty campaigns.
+### Business problem
 
-Full framing: [docs/business_problem.md](docs/business_problem.md)
+A UK online retailer had years of transaction history but no unified view of **retention**, **segment value**, or **revenue at risk**. Leadership needed evidence-backed priorities for win-back campaigns, loyalty programs, and international growth — not another one-off chart deck.
 
----
+### Approach
 
-## Tech Stack
+1. **Ingest & profile** — 1M+ raw rows; documented 22.77% missing customer IDs, cancellations, returns, duplicates  
+2. **Clean & load** — Python deduplication and flagging → Docker Postgres (`localhost:5433`) → `stg_transactions` + dims  
+3. **Model in SQL** — Eight analytical marts (cohort retention, RFM, revenue-at-risk, product/market) with locked definitions in [docs/metric_definitions.md](docs/metric_definitions.md)  
+4. **Validate** — `python scripts/validate_data.py` runs 27 row-count and logic checks  
+5. **Visualize** — Export marts to CSV → 6-page executive dashboard ([build guide](docs/powerbi_dashboard_guide.md))
 
-- **Python** — ingest, clean, validate, export marts
-- **SQL** — analytical logic (25+ queries)
-- **Postgres** — data warehouse
-- **Power BI** — 6-page executive dashboard
-- **GitHub** — version control and portfolio delivery
-
----
-
-## Architecture
+**Data lineage:** `raw` → `stg_transactions` → `dim_*` → `mart_*` → Power BI
 
 ```mermaid
 flowchart LR
@@ -48,17 +39,41 @@ flowchart LR
   E --> F[Power BI Dashboard]
 ```
 
-**Data lineage:** `raw` → `stg_transactions` → `dim_*` / `fct_*` → `mart_*` → Power BI
+### Results
+
+Locked metrics (reference date **2011-12-09**):
+
+| Theme | Finding |
+|-------|---------|
+| **Repeat behavior** | **72.35%** of attributable customers made 2+ non-canceled orders |
+| **Cohort retention** | Month-3 retention **21.61%**; month-3 revenue retention **26.44%** |
+| **RFM segments** | **1,343 Champions** · **543 At Risk** among 5,881 valid customers |
+| **Revenue concentration** | Top **10%** of customers → **64.04%** of customer-attributed revenue |
+| **Inactive high-value** | **291** customers · **£1,791,355** historical spend at risk · **£179,135.53** recoverable (10% scenario) |
+| **Product & market** | Top SKU **22423** → **£344,069** · **85.06%** of country-mart revenue in United Kingdom |
+| **Data quality** | **1.84%** cancellation line rate on staging transactions |
+
+Full methodology: [cohort](docs/cohort_analysis_notes.md) · [RFM](docs/rfm_analysis_notes.md) · [at-risk](docs/revenue_at_risk_notes.md) · [product/market](docs/product_market_notes.md)
+
+### Recommended actions
+
+Prioritized initiatives with estimated £ impact — [docs/recommendations.md](docs/recommendations.md):
+
+1. **Win-back** inactive high-value customers → **£179,136** (10% reactivation scenario)  
+2. **VIP retention** for Champions + Cannot Lose Them → **£540,000+** defended  
+3. **First-90-day nurture** for one-time buyers → **£380,000+** incremental LTV  
+4. **Product cancellation** root-cause on high-cancel SKUs → **£50K–£100K** leakage reduction  
+5. **International growth** (DE / FR / NL) → **£115,000+** (5% non-UK uplift)
 
 ---
 
 ## Dashboard Preview
 
-Build guide: [docs/powerbi_dashboard_guide.md](docs/powerbi_dashboard_guide.md)  
-Pages **1–6** are documented; screenshots added after Power BI Desktop build.
+**Build guide:** [docs/powerbi_dashboard_guide.md](docs/powerbi_dashboard_guide.md)  
+**Data:** `python scripts/export_powerbi_marts.py` → `data/marts/*.csv`
 
-| Page | Focus | Status |
-|------|--------|--------|
+| Page | Focus | Guide status |
+|------|--------|--------------|
 | 1 | Executive Revenue Overview | Guide + CSV exports ready |
 | 2 | Cohort Retention | Guide + CSV exports ready |
 | 3 | RFM Customer Segmentation | Guide + CSV exports ready |
@@ -66,145 +81,112 @@ Pages **1–6** are documented; screenshots added after Power BI Desktop build.
 | 5 | Product & Market Performance | Guide + CSV exports ready |
 | 6 | Retention Action Plan | Guide + CSV exports ready |
 
----
+### Screenshots
 
-## Key Insights
+Add PNG exports after building in Power BI Desktop. Paths (see [dashboard/screenshots/README.md](dashboard/screenshots/README.md)):
 
-Locked metrics from SQL marts (reference date 2011-12-09):
+| Page | File | Status |
+|------|------|--------|
+| 1 — Executive | `dashboard/screenshots/page1_executive_overview.png` | Add after Power BI Desktop build |
+| 2 — Cohort | `dashboard/screenshots/page2_cohort_retention.png` | Add after Power BI Desktop build |
+| 3 — RFM | `dashboard/screenshots/page3_rfm_segmentation.png` | Add after Power BI Desktop build |
+| 4 — At-risk | `dashboard/screenshots/page4_revenue_at_risk.png` | Add after Power BI Desktop build |
+| 5 — Product/market | `dashboard/screenshots/page5_product_market.png` | Add after Power BI Desktop build |
+| 6 — Action plan | `dashboard/screenshots/page6_action_plan.png` | Add after Power BI Desktop build |
 
-- **72.35%** of attributable customers are repeat buyers (2+ non-canceled orders)
-- **1,343 Champions** and **543 At Risk** RFM segments among 5,881 valid customers
-- Top **10%** of customers account for **64.04%** of customer-attributed revenue
-- High-value inactive customers represent **£179,135.53** in potential reactivation revenue (10% scenario)
-- Month-3 cohort retention averaged **21.61%**; month-3 revenue retention **26.44%**
-- **85.06%** of country-attributed revenue is United Kingdom; top product SKU **22423** drives **£344,069**
-- Cancellation lines represent **1.84%** of all staging transaction lines
+When screenshots exist, embed in this README:
 
----
-
-## Project Structure
-
-```
-retail_retention_revenue_intel/
-├── data/
-│   ├── raw/                 # UCI source files (gitignored)
-│   ├── processed/             # Cleaned CSVs (gitignored if large)
-│   └── marts/                 # Power BI export targets
-├── scripts/
-│   ├── download_or_import_data.py
-│   ├── profile_raw_data.py           # Day 2
-│   ├── clean_online_retail.py      # Day 3
-│   ├── load_to_postgres.py         # Day 4
-│   ├── validate_data.py            # SQL data quality checks
-│   ├── run_kpi_marts.py            # KPI + revenue mart build
-│   ├── run_cohort_retention.py     # Cohort retention mart
-│   ├── run_rfm_segmentation.py     # RFM segmentation mart
-│   ├── run_revenue_at_risk.py      # Revenue-at-risk mart
-│   ├── run_product_market_analysis.py  # Product & country marts
-│   └── export_powerbi_marts.py     # Export marts + Power BI manifest
-├── sql/
-│   ├── 01_schema.sql
-│   ├── 02_data_quality_checks.sql
-│   └── ...                         # KPI, cohort, RFM, risk, product
-├── dashboard/
-│   ├── README.md
-│   ├── Retail_Retention_Revenue_Intelligence.pbix
-│   └── screenshots/
-├── docs/
-│   ├── powerbi_dashboard_guide.md  # Pages 1–2 build guide
-│   ├── business_problem.md
-│   ├── metric_definitions.md
-│   ├── data_dictionary.md
-│   ├── data_quality_report.md
-│   └── ...
-├── README.md
-└── requirements.txt
+```markdown
+![Executive overview](dashboard/screenshots/page1_executive_overview.png)
 ```
 
 ---
 
-## How to Run
+## Tech Stack
 
-> Scripts are added incrementally during the 2-week build. Full run order below.
-
-```bash
-# 1. Clone and install
-git clone https://github.com/rmarathe-hub/retail-retention-revenue-intel.git
-cd retail-retention-revenue-intel
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-# 2. Data pipeline (Week 1)
-python scripts/download_or_import_data.py   # Day 2 — downloads xlsx, creates combined CSV
-python scripts/profile_raw_data.py          # Day 2 — profiles raw data
-python scripts/clean_online_retail.py       # Day 3
-python scripts/load_to_postgres.py          # Day 4 — apply schema + load raw/stg/dims
-python scripts/validate_data.py           # SQL data quality checks
-python scripts/run_kpi_marts.py         # Executive KPI + revenue marts
-python scripts/run_cohort_retention.py  # Cohort retention mart
-python scripts/run_rfm_segmentation.py  # RFM segmentation mart
-python scripts/run_revenue_at_risk.py   # Revenue-at-risk mart
-python scripts/run_product_market_analysis.py  # Product & country marts
-python scripts/export_powerbi_marts.py  # Export marts + manifest for Power BI
-
-# 3. SQL marts — or use run_* scripts above
-# ... 09 executive summary (later)
-```
-
-Configure Postgres via Docker on **host port 5433** (see [docs/postgres_setup.md](docs/postgres_setup.md)).
-
-```bash
-source .venv/bin/activate
-cp .env.example .env
-docker compose up -d
-docker compose ps
-docker compose exec postgres pg_isready -U retail_user -d retail_analytics
-python scripts/load_to_postgres.py
-python scripts/validate_data.py
-python scripts/run_kpi_marts.py
-python scripts/run_cohort_retention.py
-python scripts/run_rfm_segmentation.py
-python scripts/run_revenue_at_risk.py
-python scripts/run_product_market_analysis.py
-pytest -q -m "db"
-```
-
----
-
-## SQL Analysis
-
-| File | Purpose |
-|------|---------|
-| `01_schema.sql` | Tables, dims, indexes |
-| `02_data_quality_checks.sql` | Validation queries |
-| `03_kpi_definitions.sql` | Executive KPIs |
-| `04_revenue_analysis.sql` | Monthly revenue, repeat vs one-time |
-| `05_cohort_retention.sql` | Cohort retention mart |
-| `06_rfm_segmentation.sql` | RFM scores and segments |
-| `07_revenue_at_risk.sql` | Inactive high-value customers |
-| `08_product_market_analysis.sql` | Product and country performance |
-| `09_executive_summary.sql` | Rollups for dashboard |
+- **Python** — ingest, clean, validate, export marts  
+- **SQL** — analytical logic (25+ queries across 8 mart scripts)  
+- **Postgres** — Docker data warehouse on host port **5433**  
+- **Power BI** — 6-page executive dashboard  
+- **pytest** — 1,000+ automated contract and integration tests  
+- **GitHub** — [retail-retention-revenue-intel](https://github.com/rmarathe-hub/retail-retention-revenue-intel)
 
 ---
 
 ## Data Quality
 
-Messy real-world data: **243,007 rows (22.77%) missing customer IDs**, 19,494 canceled invoice lines, 22,950 return lines, 12,133 duplicates, and pricing anomalies. Day 3 cleaning is implemented in `scripts/clean_online_retail.py`, producing:
+Messy real-world data handled explicitly:
 
-- `data/processed/retail_transactions_clean.csv` (1,055,238 rows after deduplication)
-- `data/processed/retail_transactions_customer_level.csv` (812,368 rows with valid customer IDs)
+- **243,007 rows (22.77%)** missing customer IDs  
+- **19,494** canceled invoice lines · **22,950** return lines · **12,133** duplicates  
+- Cleaning: `scripts/clean_online_retail.py` → 1,055,238 deduplicated rows  
 
-Full details: [docs/data_quality_report.md](docs/data_quality_report.md) and [docs/data_dictionary.md](docs/data_dictionary.md).
+Details: [data_quality_report.md](docs/data_quality_report.md) · [data_dictionary.md](docs/data_dictionary.md)  
+Raw and processed data files are **gitignored** locally; run the pipeline above to regenerate.
 
 ---
 
-## Recommendations
+## How to Reproduce
 
-Prioritized retention actions with estimated impact — [docs/recommendations.md](docs/recommendations.md).
+```bash
+git clone https://github.com/rmarathe-hub/retail-retention-revenue-intel.git
+cd retail-retention-revenue-intel
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+cp .env.example .env
+docker compose up -d
+docker compose exec postgres pg_isready -U retail_user -d retail_analytics
+
+python scripts/download_or_import_data.py
+python scripts/profile_raw_data.py
+python scripts/clean_online_retail.py
+python scripts/load_to_postgres.py
+python scripts/validate_data.py
+
+python scripts/run_kpi_marts.py
+python scripts/run_cohort_retention.py
+python scripts/run_rfm_segmentation.py
+python scripts/run_revenue_at_risk.py
+python scripts/run_product_market_analysis.py
+python scripts/export_powerbi_marts.py
+
+pytest -q -m "db"
+```
+
+Postgres setup: [docs/postgres_setup.md](docs/postgres_setup.md) (host **5433**, not 5432).
+
+---
+
+## SQL Marts
+
+| File | Mart(s) |
+|------|---------|
+| `03_kpi_definitions.sql` | `mart_executive_kpis` |
+| `04_revenue_analysis.sql` | `mart_monthly_revenue`, `mart_customer_orders` |
+| `05_cohort_retention.sql` | `mart_cohort_retention` |
+| `06_rfm_segmentation.sql` | `mart_customer_rfm` |
+| `07_revenue_at_risk.sql` | `mart_revenue_at_risk` |
+| `08_product_market_analysis.sql` | `mart_product_performance`, `mart_country_performance` |
+
+Validation: `02_data_quality_checks.sql` via `validate_data.py`
+
+---
+
+## Documentation
+
+| Doc | Purpose |
+|-----|---------|
+| [portfolio_case_study.md](docs/portfolio_case_study.md) | Interview-ready STAR narrative |
+| [business_problem.md](docs/business_problem.md) | Stakeholders and success criteria |
+| [metric_definitions.md](docs/metric_definitions.md) | Locked KPI and mart definitions |
+| [recommendations.md](docs/recommendations.md) | Prioritized actions with £ impact |
+| [powerbi_dashboard_guide.md](docs/powerbi_dashboard_guide.md) | Page-by-page dashboard build |
+| [postgres_setup.md](docs/postgres_setup.md) | Docker and connection details |
 
 ---
 
 ## License
 
-Portfolio / educational use. Dataset © UCI Machine Learning Repository — see UCI terms for the Online Retail II dataset.
+Portfolio / educational use. Dataset © UCI Machine Learning Repository — see UCI terms for Online Retail II.

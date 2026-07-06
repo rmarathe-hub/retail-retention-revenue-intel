@@ -203,6 +203,7 @@ WEEK1_DOCS = [
     "docs/revenue_at_risk_notes.md",
     "docs/product_market_notes.md",
     "docs/recommendations.md",
+    "docs/portfolio_case_study.md",
     "docs/powerbi_dashboard_guide.md",
 ]
 

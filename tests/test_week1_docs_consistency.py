@@ -90,6 +90,10 @@ README_SNIPPETS = [
     "run_cohort_retention.py",
     "run_product_market_analysis.py",
     "export_powerbi_marts.py",
+    "recommendations.md",
+    "portfolio_case_study.md",
+    "Case Study",
+    "page1_executive_overview.png",
     "gitignored",
     "Power BI",
 ]
