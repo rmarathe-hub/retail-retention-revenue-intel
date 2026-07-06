@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** Revenue-at-risk analysis implemented
+**Status:** Power BI executive and cohort pages — data export and build guide ready
 
 ---
 
@@ -54,28 +54,29 @@ flowchart LR
 
 ## Dashboard Preview
 
-*(Screenshots coming Week 2 — Days 10–12)*
+Build guide: [docs/powerbi_dashboard_guide.md](docs/powerbi_dashboard_guide.md)  
+Pages **1–2** (Executive + Cohort) are documented; screenshots added after Power BI Desktop build.
 
-| Page | Focus |
-|------|--------|
-| 1 | Executive Revenue Overview |
-| 2 | Cohort Retention |
-| 3 | RFM Customer Segmentation |
-| 4 | Revenue Concentration & At-Risk Customers |
-| 5 | Product & Market Performance |
-| 6 | Retention Action Plan |
+| Page | Focus | Status |
+|------|--------|--------|
+| 1 | Executive Revenue Overview | Guide + CSV exports ready |
+| 2 | Cohort Retention | Guide + CSV exports ready |
+| 3 | RFM Customer Segmentation | Planned |
+| 4 | Revenue Concentration & At-Risk Customers | Planned |
+| 5 | Product & Market Performance | Planned |
+| 6 | Retention Action Plan | Planned |
 
 ---
 
 ## Key Insights
 
-*(Populated after analysis — Week 1 Days 6–9, finalized Day 13)*
+Locked metrics from SQL marts (reference date 2011-12-09):
 
-- Repeat customers generated **X%** of total revenue
-- Top 10% of customers accounted for **X%** of revenue
-- High-value inactive customers represent **£X** in potential reactivation revenue (10% scenario)
-- Month-3 cohort retention averaged **X%** for weaker cohorts
-- Cancellations concentrated in **X** products / countries
+- **72.35%** of attributable customers are repeat buyers (2+ non-canceled orders)
+- Top **10%** of customers account for **64.04%** of customer-attributed revenue
+- High-value inactive customers represent **£179,135.53** in potential reactivation revenue (10% scenario)
+- Month-3 cohort retention averaged **21.61%**; month-3 revenue retention **26.44%**
+- Cancellation lines represent **1.84%** of all staging transaction lines
 
 ---
 
@@ -97,15 +98,17 @@ retail_retention_revenue_intel/
 │   ├── run_cohort_retention.py     # Cohort retention mart
 │   ├── run_rfm_segmentation.py     # RFM segmentation mart
 │   ├── run_revenue_at_risk.py      # Revenue-at-risk mart
-│   └── export_powerbi_marts.py     # Export marts to CSV
+│   └── export_powerbi_marts.py     # Export marts + Power BI manifest
 ├── sql/
 │   ├── 01_schema.sql
 │   ├── 02_data_quality_checks.sql
 │   └── ...                         # KPI, cohort, RFM, risk, product
 ├── dashboard/
+│   ├── README.md
 │   ├── Retail_Retention_Revenue_Intelligence.pbix
 │   └── screenshots/
 ├── docs/
+│   ├── powerbi_dashboard_guide.md  # Pages 1–2 build guide
 │   ├── business_problem.md
 │   ├── metric_definitions.md
 │   ├── data_dictionary.md
@@ -139,7 +142,7 @@ python scripts/run_kpi_marts.py         # Executive KPI + revenue marts
 python scripts/run_cohort_retention.py  # Cohort retention mart
 python scripts/run_rfm_segmentation.py  # RFM segmentation mart
 python scripts/run_revenue_at_risk.py   # Revenue-at-risk mart
-python scripts/export_powerbi_marts.py  # Export marts for Power BI
+python scripts/export_powerbi_marts.py  # Export marts + manifest for Power BI
 
 # 3. SQL marts — or use run_* scripts above
 # psql -f sql/08_product_market_analysis.sql

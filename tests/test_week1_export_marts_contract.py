@@ -32,6 +32,8 @@ def test_export_module_lists_day6_and_cohort_marts(project_root: Path) -> None:
     assert "mart_executive_kpis" in module.DAY6_MARTS
     assert "mart_cohort_retention" in module.LATER_MARTS
     assert "mart_customer_rfm" in module.LATER_MARTS
+    assert hasattr(module, "MANIFEST_PATH")
+    assert hasattr(module, "POWERBI_PAGE1_MARTS")
 
 
 @pytest.mark.unit

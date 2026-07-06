@@ -1,8 +1,8 @@
 """
 Export PostgreSQL marts to CSV for Power BI.
 
-Day 6 exports: executive KPIs, monthly revenue, customer orders.
-Days 7-9 marts export when populated.
+Exports executive KPIs, monthly revenue, customer orders, cohort, RFM,
+and revenue-at-risk marts when populated. Writes a manifest JSON for dashboard builds.
 
 Usage:
   python scripts/export_powerbi_marts.py
@@ -12,6 +12,8 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -22,6 +24,7 @@ from db_config import create_db_engine
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MARTS_DIR = PROJECT_ROOT / "data" / "marts"
+MANIFEST_PATH = PROJECT_ROOT / "data" / "processed" / "powerbi_export_manifest.json"
 
 DAY6_MARTS = [
     "mart_executive_kpis",
@@ -35,6 +38,15 @@ LATER_MARTS = [
     "mart_revenue_at_risk",
     "mart_product_performance",
     "mart_country_performance",
+]
+
+POWERBI_PAGE1_MARTS = [
+    "mart_executive_kpis",
+    "mart_monthly_revenue",
+]
+
+POWERBI_PAGE2_MARTS = [
+    "mart_cohort_retention",
 ]
 
 
@@ -60,9 +72,36 @@ def export_powerbi_marts(
     tables = tables or (DAY6_MARTS + LATER_MARTS)
 
     exported: dict[str, str | None] = {}
+    row_counts: dict[str, int] = {}
     for table in tables:
         path = export_mart(engine, table, output_dir)
         exported[table] = str(path) if path else None
+        if path:
+            with engine.connect() as conn:
+                row_counts[table] = int(conn.execute(text(f"SELECT COUNT(*) FROM {table}")).scalar())
+        else:
+            row_counts[table] = 0
+
+    manifest = {
+        "exported_at": datetime.now(timezone.utc).isoformat(),
+        "output_dir": str(output_dir.relative_to(PROJECT_ROOT)),
+        "exported_files": exported,
+        "row_counts": row_counts,
+        "powerbi_pages": {
+            "executive_overview": {
+                "page_number": 1,
+                "required_marts": POWERBI_PAGE1_MARTS,
+                "guide": "docs/powerbi_dashboard_guide.md#page-1--executive-revenue-overview",
+            },
+            "cohort_retention": {
+                "page_number": 2,
+                "required_marts": POWERBI_PAGE2_MARTS,
+                "guide": "docs/powerbi_dashboard_guide.md#page-2--cohort-retention",
+            },
+        },
+    }
+    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
+    MANIFEST_PATH.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return exported
 
 
@@ -94,6 +133,7 @@ def main() -> None:
         status = path if path else "skipped (empty)"
         print(f"{table}: {status}")
     print("=" * 60)
+    print(f"Manifest: {MANIFEST_PATH}")
 
 
 if __name__ == "__main__":

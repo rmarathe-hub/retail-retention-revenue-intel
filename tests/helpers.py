@@ -189,6 +189,7 @@ WEEK1_DOCS = [
     "docs/cohort_analysis_notes.md",
     "docs/rfm_analysis_notes.md",
     "docs/revenue_at_risk_notes.md",
+    "docs/powerbi_dashboard_guide.md",
 ]
 
 DAY8_PLUS_FILES = [
