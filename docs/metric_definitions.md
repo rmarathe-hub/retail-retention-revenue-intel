@@ -2,7 +2,7 @@
 
 This document is the **source of truth** for KPI and analytical metric definitions. Each metric used in SQL marts or Power BI must appear here with definition, grain, and source table.
 
-> **Status:** Executive KPI, revenue analysis, cohort retention, and **RFM segmentation** metrics locked through Day 8. Revenue-at-risk planned for Day 9.
+> **Status:** Executive KPI, revenue analysis, cohort retention, RFM segmentation, and **revenue-at-risk** metrics locked through Day 9. Product/country performance planned for later SQL marts.
 
 ---
 
@@ -87,14 +87,34 @@ This document is the **source of truth** for KPI and analytical metric definitio
 
 ---
 
-## Planned Metrics (Day 9)
+## Day 9 Metrics (locked)
 
 | Metric | Definition | Grain | Source Table | Status |
 |--------|------------|-------|--------------|--------|
-| Revenue at Risk | Historical spend from high-value inactive customers | Customer | `mart_revenue_at_risk` | Planned Day 9 |
-| Inactive (90/120/180d) | No purchase for N+ days since last invoice | Customer | `mart_revenue_at_risk` | Planned Day 9 |
-| Recoverable Revenue | Estimated revenue if X% of inactive customers reactivate | Scenario | `mart_revenue_at_risk` | Planned Day 9 |
-| Top 1% / 10% Revenue Share | Revenue concentration from top customers by spend | Customer | `mart_revenue_at_risk` | Planned Day 9 |
+| Revenue at Risk | Sum of `historical_revenue` for high-value inactive customers | Company | `revenue_at_risk_summary.json` | **Locked** — £1,791,355.34 |
+| Inactive High-Value (90d) | Top-quartile customers inactive 90–119 days | Customer | `mart_revenue_at_risk` (`inactivity_window = '90d'`) | **Locked** — 59 |
+| Inactive High-Value (120d) | Top-quartile customers inactive 120–179 days | Customer | `mart_revenue_at_risk` (`inactivity_window = '120d'`) | **Locked** — 68 |
+| Inactive High-Value (180d) | Top-quartile customers inactive 180+ days | Customer | `mart_revenue_at_risk` (`inactivity_window = '180d'`) | **Locked** — 164 |
+| Recoverable Revenue (10%) | `historical_revenue × 0.10` for at-risk customers | Scenario | `mart_revenue_at_risk` | **Locked** — £179,135.53 |
+| Top 1% Revenue Share | % of customer-attributed revenue from top 1% of customers | Customer | `revenue_at_risk_summary.json` | **Locked** — 32.02% |
+| Top 10% Revenue Share | % of customer-attributed revenue from top 10% of customers | Customer | `revenue_at_risk_summary.json` | **Locked** — 64.04% |
+| At-Risk Customer Detail | Per-customer last purchase, inactivity window, recoverable revenue | Customer | `mart_revenue_at_risk` | **Locked** — 291 rows |
+
+### SQL implementation
+
+| File | Purpose |
+|------|---------|
+| `sql/07_revenue_at_risk.sql` | Populates `mart_revenue_at_risk` (291 rows) |
+| `scripts/run_revenue_at_risk.py` | Applies Day 9 SQL and writes `revenue_at_risk_summary.json` |
+
+---
+
+## Planned Metrics (later SQL marts)
+
+| Metric | Definition | Grain | Source Table | Status |
+|--------|------------|-------|--------------|--------|
+| Product Revenue Leaderboard | Revenue and quantity by `stock_code` | Product | `mart_product_performance` | Planned |
+| Country Revenue Leaderboard | Revenue, orders, and active customers by country | Country | `mart_country_performance` | Planned |
 
 ---
 
@@ -103,5 +123,6 @@ This document is the **source of truth** for KPI and analytical metric definitio
 - [Business Problem](business_problem.md)
 - [Cohort Analysis Notes](cohort_analysis_notes.md)
 - [RFM Analysis Notes](rfm_analysis_notes.md)
+- [Revenue at Risk Notes](revenue_at_risk_notes.md)
 - [Data Quality Report](data_quality_report.md)
 - [Data Dictionary](data_dictionary.md)

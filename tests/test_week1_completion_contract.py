@@ -48,6 +48,6 @@ def test_week1_master_contract(project_root: Path, readme_text: str) -> None:
     assert PROJECT_NAME in readme_text
     assert "run_cohort_retention.py" in readme_text
     assert "05_cohort_retention.sql" in readme_text
-    assert not (project_root / "sql/07_revenue_at_risk.sql").exists()
+    assert not (project_root / "sql/08_product_market_analysis.sql").exists()
     for script in WEEK1_SCRIPTS:
         assert (project_root / script).exists()

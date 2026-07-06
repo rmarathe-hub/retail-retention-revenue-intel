@@ -30,8 +30,8 @@ METRIC_DEFINITION_SNIPPETS = [
     "2011-12-09",
     "is_canceled = FALSE",
     "valid `customer_id`",
-    "Day 8 Metrics (locked)",
-    "mart_customer_rfm",
+    "Day 9 Metrics (locked)",
+    "mart_revenue_at_risk",
 ]
 
 COHORT_NOTES_SNIPPETS = [
@@ -155,11 +155,12 @@ def test_readme_does_not_claim_future_work_complete(readme_text: str, phrase: st
 @pytest.mark.parametrize(
     "phrase",
     [
-        "revenue at risk",
-        "mart_revenue_at_risk",
+        "product performance",
+        "country performance",
+        "mart_product_performance",
+        "mart_country_performance",
     ],
 )
-def test_metric_definitions_day9_still_planned(metric_definitions_text: str, phrase: str) -> None:
+def test_metric_definitions_product_country_still_planned(metric_definitions_text: str, phrase: str) -> None:
     planned = metric_definitions_text.split("## Planned Metrics")[1]
     assert phrase.lower() in planned.lower()
-    assert "Planned Day 9" in planned

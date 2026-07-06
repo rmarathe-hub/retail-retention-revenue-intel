@@ -12,6 +12,7 @@ from tests.helpers import (
     MART_CUSTOMER_ORDERS_ROWS,
     MART_CUSTOMER_RFM_ROWS,
     MART_MONTHLY_REVENUE_ROWS,
+    MART_REVENUE_AT_RISK_ROWS,
     RAW_ROW_COUNT,
     db_is_reachable,
 )
@@ -56,11 +57,13 @@ def test_smoke_week1_db_state_when_available(project_root) -> None:
         kpis = conn.execute(text("SELECT COUNT(*) FROM mart_executive_kpis")).scalar()
         cohort = conn.execute(text("SELECT COUNT(*) FROM mart_cohort_retention")).scalar()
         rfm = conn.execute(text("SELECT COUNT(*) FROM mart_customer_rfm")).scalar()
+        risk = conn.execute(text("SELECT COUNT(*) FROM mart_revenue_at_risk")).scalar()
     assert raw == RAW_ROW_COUNT
     assert stg == CLEAN_OUTPUT_ROWS
     assert kpis == EXECUTIVE_KPI_COUNT
     assert cohort == COHORT_RETENTION_ROWS
     assert rfm == MART_CUSTOMER_RFM_ROWS
+    assert risk == MART_REVENUE_AT_RISK_ROWS
 
 
 @pytest.mark.db
@@ -72,14 +75,17 @@ def test_smoke_validate_and_mart_scripts_pass(project_root) -> None:
     kpi = load_module_from_path("smoke_kpi", project_root / "scripts/run_kpi_marts.py")
     cohort = load_module_from_path("smoke_coh", project_root / "scripts/run_cohort_retention.py")
     rfm = load_module_from_path("smoke_rfm", project_root / "scripts/run_rfm_segmentation.py")
+    risk = load_module_from_path("smoke_risk", project_root / "scripts/run_revenue_at_risk.py")
 
     v = validate.run_validation()
     k = kpi.run_kpi_marts()
     c = cohort.run_cohort_retention()
     r = rfm.run_rfm_segmentation()
+    risk_summary = risk.run_revenue_at_risk()
     assert v["all_checks_passed"] is True
     assert len(v["quality_checks"]) == DQ_CHECK_COUNT
     assert k["mart_row_counts"]["mart_monthly_revenue"] == MART_MONTHLY_REVENUE_ROWS
     assert k["mart_row_counts"]["mart_customer_orders"] == MART_CUSTOMER_ORDERS_ROWS
     assert c["mart_cohort_retention_rows"] == COHORT_RETENTION_ROWS
     assert r["mart_customer_rfm_rows"] == MART_CUSTOMER_RFM_ROWS
+    assert risk_summary["mart_revenue_at_risk_rows"] == MART_REVENUE_AT_RISK_ROWS

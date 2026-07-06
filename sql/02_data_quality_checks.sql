@@ -87,8 +87,8 @@ FROM (
     FROM mart_customer_rfm
 
     UNION ALL
-    SELECT 'mart_revenue_at_risk_empty',
-           0,
+    SELECT 'mart_revenue_at_risk_rows',
+           291,
            COUNT(*)::bigint
     FROM mart_revenue_at_risk
 

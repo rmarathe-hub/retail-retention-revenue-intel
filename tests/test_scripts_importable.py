@@ -40,6 +40,10 @@ from .conftest import load_module_from_path
             ["main", "run_rfm_segmentation"],
         ),
         (
+            "scripts/run_revenue_at_risk.py",
+            ["main", "run_revenue_at_risk"],
+        ),
+        (
             "scripts/export_powerbi_marts.py",
             ["main", "export_powerbi_marts"],
         ),
@@ -67,6 +71,7 @@ def test_scripts_have_main_guard(project_root: Path) -> None:
         "scripts/run_kpi_marts.py",
         "scripts/run_cohort_retention.py",
         "scripts/run_rfm_segmentation.py",
+        "scripts/run_revenue_at_risk.py",
         "scripts/export_powerbi_marts.py",
     ):
         text = (project_root / script).read_text(encoding="utf-8")

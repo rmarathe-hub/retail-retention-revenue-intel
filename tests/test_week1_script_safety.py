@@ -20,6 +20,7 @@ ENTRYPOINT_SYMBOLS = {
     "scripts/export_powerbi_marts.py": ["main", "export_powerbi_marts"],
     "scripts/run_cohort_retention.py": ["main", "run_cohort_retention"],
     "scripts/run_rfm_segmentation.py": ["main", "run_rfm_segmentation"],
+    "scripts/run_revenue_at_risk.py": ["main", "run_revenue_at_risk"],
 }
 
 

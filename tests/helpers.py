@@ -98,6 +98,16 @@ RFM_SEGMENT_COUNTS = {
     "Promising": 365,
 }
 
+# Day 9 revenue-at-risk contracts
+MART_REVENUE_AT_RISK_ROWS = 291
+RISK_TOTAL_REVENUE_AT_RISK = 1_791_355.3360
+RISK_RECOVERABLE_10PCT = 179_135.5336
+RISK_INACTIVE_90D_COUNT = 59
+RISK_INACTIVE_120D_COUNT = 68
+RISK_INACTIVE_180D_COUNT = 164
+RISK_TOP_1PCT_REVENUE_SHARE = 32.0164
+RISK_TOP_10PCT_REVENUE_SHARE = 64.0410
+
 # Day 5 validation contracts
 DQ_CHECK_COUNT = 27
 MISSING_CUSTOMER_REVENUE_GBP = 2_638_407.51
@@ -114,7 +124,7 @@ DQ_CHECK_NAMES = [
     "mart_cohort_distinct_months",
     "cohort_month_zero_retention_mismatch",
     "mart_customer_rfm_rows",
-    "mart_revenue_at_risk_empty",
+    "mart_revenue_at_risk_rows",
     "mart_product_performance_empty",
     "mart_country_performance_empty",
     "missing_customer_lines",
@@ -138,10 +148,10 @@ POPULATED_MARTS = {
     "mart_customer_orders": MART_CUSTOMER_ORDERS_ROWS,
     "mart_cohort_retention": COHORT_RETENTION_ROWS,
     "mart_customer_rfm": MART_CUSTOMER_RFM_ROWS,
+    "mart_revenue_at_risk": MART_REVENUE_AT_RISK_ROWS,
 }
 
 EMPTY_FUTURE_MARTS = [
-    "mart_revenue_at_risk",
     "mart_product_performance",
     "mart_country_performance",
 ]
@@ -157,6 +167,7 @@ WEEK1_SCRIPTS = [
     "scripts/export_powerbi_marts.py",
     "scripts/run_cohort_retention.py",
     "scripts/run_rfm_segmentation.py",
+    "scripts/run_revenue_at_risk.py",
 ]
 
 WEEK1_SQL_FILES = [
@@ -166,6 +177,7 @@ WEEK1_SQL_FILES = [
     "sql/04_revenue_analysis.sql",
     "sql/05_cohort_retention.sql",
     "sql/06_rfm_segmentation.sql",
+    "sql/07_revenue_at_risk.sql",
 ]
 
 WEEK1_DOCS = [
@@ -176,10 +188,10 @@ WEEK1_DOCS = [
     "docs/postgres_setup.md",
     "docs/cohort_analysis_notes.md",
     "docs/rfm_analysis_notes.md",
+    "docs/revenue_at_risk_notes.md",
 ]
 
 DAY8_PLUS_FILES = [
-    "sql/07_revenue_at_risk.sql",
     "sql/08_product_market_analysis.sql",
     "sql/09_executive_summary.sql",
     "dashboard/Retail_Retention_Revenue_Intelligence.pbix",
@@ -196,6 +208,7 @@ PORT_SCAN_PATHS = [
     "scripts/run_kpi_marts.py",
     "scripts/run_cohort_retention.py",
     "scripts/run_rfm_segmentation.py",
+    "scripts/run_revenue_at_risk.py",
     "scripts/export_powerbi_marts.py",
 ]
 

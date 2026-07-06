@@ -9,6 +9,7 @@ from tests.helpers import (
     MART_CUSTOMER_ORDERS_ROWS,
     MART_CUSTOMER_RFM_ROWS,
     MART_MONTHLY_REVENUE_ROWS,
+    MART_REVENUE_AT_RISK_ROWS,
     db_is_reachable,
 )
 
@@ -53,6 +54,19 @@ def test_run_rfm_segmentation_idempotent(project_root) -> None:
     second = module.run_rfm_segmentation()
     assert first["mart_customer_rfm_rows"] == second["mart_customer_rfm_rows"]
     assert first["segment_counts"] == second["segment_counts"]
+
+
+@pytest.mark.db
+def test_run_revenue_at_risk_idempotent(project_root) -> None:
+    if not db_is_reachable(project_root):
+        pytest.skip("PostgreSQL on localhost:5433 not reachable")
+    from tests.conftest import load_module_from_path
+
+    module = load_module_from_path("risk_idem", project_root / "scripts/run_revenue_at_risk.py")
+    first = module.run_revenue_at_risk()
+    second = module.run_revenue_at_risk()
+    assert first["mart_revenue_at_risk_rows"] == second["mart_revenue_at_risk_rows"]
+    assert first["mart_revenue_at_risk_rows"] == MART_REVENUE_AT_RISK_ROWS
 
 
 @pytest.mark.db

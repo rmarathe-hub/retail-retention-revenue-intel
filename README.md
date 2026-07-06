@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** RFM segmentation implemented
+**Status:** Revenue-at-risk analysis implemented
 
 ---
 
@@ -96,6 +96,7 @@ retail_retention_revenue_intel/
 │   ├── run_kpi_marts.py            # KPI + revenue mart build
 │   ├── run_cohort_retention.py     # Cohort retention mart
 │   ├── run_rfm_segmentation.py     # RFM segmentation mart
+│   ├── run_revenue_at_risk.py      # Revenue-at-risk mart
 │   └── export_powerbi_marts.py     # Export marts to CSV
 ├── sql/
 │   ├── 01_schema.sql
@@ -137,11 +138,12 @@ python scripts/validate_data.py           # SQL data quality checks
 python scripts/run_kpi_marts.py         # Executive KPI + revenue marts
 python scripts/run_cohort_retention.py  # Cohort retention mart
 python scripts/run_rfm_segmentation.py  # RFM segmentation mart
+python scripts/run_revenue_at_risk.py   # Revenue-at-risk mart
 python scripts/export_powerbi_marts.py  # Export marts for Power BI
 
 # 3. SQL marts — or use run_* scripts above
-# psql -f sql/06_rfm_segmentation.sql
-# ... 07-09 revenue at risk, product (Day 9+)
+# psql -f sql/08_product_market_analysis.sql
+# ... 09 executive summary (later)
 ```
 
 Configure Postgres via Docker on **host port 5433** (see [docs/postgres_setup.md](docs/postgres_setup.md)).
@@ -157,6 +159,7 @@ python scripts/validate_data.py
 python scripts/run_kpi_marts.py
 python scripts/run_cohort_retention.py
 python scripts/run_rfm_segmentation.py
+python scripts/run_revenue_at_risk.py
 pytest -q -m "db"
 ```
 
