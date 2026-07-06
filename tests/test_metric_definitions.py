@@ -57,8 +57,10 @@ def test_metric_definitions_global_rules_finalized(metric_definitions_text: str)
 
 
 @pytest.mark.docs
-def test_planned_metrics_still_documented(metric_definitions_text: str) -> None:
+def test_locked_product_market_metrics_documented(metric_definitions_text: str) -> None:
     assert "mart_product_performance" in metric_definitions_text
     assert "mart_revenue_at_risk" in metric_definitions_text
     assert "Day 9 Metrics (locked)" in metric_definitions_text
     assert "Day 8 Metrics (locked)" in metric_definitions_text
+    assert "Product & Market Metrics (locked)" in metric_definitions_text
+    assert "5,304" in metric_definitions_text

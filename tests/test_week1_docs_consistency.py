@@ -32,6 +32,8 @@ METRIC_DEFINITION_SNIPPETS = [
     "valid `customer_id`",
     "Day 9 Metrics (locked)",
     "mart_revenue_at_risk",
+    "Product & Market Metrics (locked)",
+    "85.06%",
 ]
 
 COHORT_NOTES_SNIPPETS = [
@@ -86,6 +88,7 @@ README_SNIPPETS = [
     "validate_data.py",
     "run_kpi_marts.py",
     "run_cohort_retention.py",
+    "run_product_market_analysis.py",
     "export_powerbi_marts.py",
     "gitignored",
     "Power BI",
@@ -155,12 +158,12 @@ def test_readme_does_not_claim_future_work_complete(readme_text: str, phrase: st
 @pytest.mark.parametrize(
     "phrase",
     [
-        "product performance",
-        "country performance",
-        "mart_product_performance",
-        "mart_country_performance",
+        "Executive Summary Rollup",
+        "09_executive_summary.sql",
     ],
 )
-def test_metric_definitions_product_country_still_planned(metric_definitions_text: str, phrase: str) -> None:
+def test_metric_definitions_executive_summary_still_planned(
+    metric_definitions_text: str, phrase: str
+) -> None:
     planned = metric_definitions_text.split("## Planned Metrics")[1]
     assert phrase.lower() in planned.lower()

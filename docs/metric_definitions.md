@@ -2,7 +2,7 @@
 
 This document is the **source of truth** for KPI and analytical metric definitions. Each metric used in SQL marts or Power BI must appear here with definition, grain, and source table.
 
-> **Status:** Executive KPI, revenue analysis, cohort retention, RFM segmentation, and **revenue-at-risk** metrics locked through Day 9. Product/country performance planned for later SQL marts.
+> **Status:** Executive KPI, revenue analysis, cohort retention, RFM segmentation, revenue-at-risk, and **product/country performance** metrics locked. Executive summary rollup planned for `09_executive_summary.sql`.
 
 ---
 
@@ -109,12 +109,33 @@ This document is the **source of truth** for KPI and analytical metric definitio
 
 ---
 
-## Planned Metrics (later SQL marts)
+## Product & Market Metrics (locked)
 
 | Metric | Definition | Grain | Source Table | Status |
 |--------|------------|-------|--------------|--------|
-| Product Revenue Leaderboard | Revenue and quantity by `stock_code` | Product | `mart_product_performance` | Planned |
-| Country Revenue Leaderboard | Revenue, orders, and active customers by country | Country | `mart_country_performance` | Planned |
+| Product Revenue Leaderboard | Sum of non-canceled `line_revenue` by `stock_code` | Product | `mart_product_performance` (`total_revenue`) | **Locked** — 5,304 rows |
+| Product Quantity | Sum of non-canceled `quantity` by `stock_code` | Product | `mart_product_performance` (`total_quantity`) | **Locked** |
+| Product Cancellation Rate | % of staging lines canceled per `stock_code` | Product | `mart_product_performance` (`cancellation_rate`) | **Locked** |
+| Top Product Revenue | Highest `total_revenue` SKU | Product | `mart_product_performance` | **Locked** — £344,069.30 (`22423`) |
+| Country Revenue Leaderboard | Non-canceled revenue by `country` | Country | `mart_country_performance` (`total_revenue`) | **Locked** — 43 rows |
+| Country Orders | Distinct non-canceled invoices with valid customer | Country | `mart_country_performance` (`total_orders`) | **Locked** |
+| Country Active Customers | Distinct valid customers per country | Country | `mart_country_performance` (`active_customers`) | **Locked** |
+| UK Revenue Share | UK revenue / total country-mart revenue | Country | `product_market_summary.json` | **Locked** — 85.06% |
+
+### SQL implementation
+
+| File | Purpose |
+|------|---------|
+| `sql/08_product_market_analysis.sql` | Populates `mart_product_performance` and `mart_country_performance` |
+| `scripts/run_product_market_analysis.py` | Applies SQL and writes `product_market_summary.json` |
+
+---
+
+## Planned Metrics (later SQL)
+
+| Metric | Definition | Grain | Source Table | Status |
+|--------|------------|-------|--------------|--------|
+| Executive Summary Rollup | Cross-mart headline table for dashboard page 6 | Company | `09_executive_summary.sql` | Planned |
 
 ---
 
@@ -124,5 +145,7 @@ This document is the **source of truth** for KPI and analytical metric definitio
 - [Cohort Analysis Notes](cohort_analysis_notes.md)
 - [RFM Analysis Notes](rfm_analysis_notes.md)
 - [Revenue at Risk Notes](revenue_at_risk_notes.md)
+- [Product & Market Notes](product_market_notes.md)
+- [Executive Recommendations](recommendations.md)
 - [Data Quality Report](data_quality_report.md)
 - [Data Dictionary](data_dictionary.md)

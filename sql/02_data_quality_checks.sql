@@ -93,14 +93,14 @@ FROM (
     FROM mart_revenue_at_risk
 
     UNION ALL
-    SELECT 'mart_product_performance_empty',
-           0,
+    SELECT 'mart_product_performance_rows',
+           5304,
            COUNT(*)::bigint
     FROM mart_product_performance
 
     UNION ALL
-    SELECT 'mart_country_performance_empty',
-           0,
+    SELECT 'mart_country_performance_rows',
+           43,
            COUNT(*)::bigint
     FROM mart_country_performance
 

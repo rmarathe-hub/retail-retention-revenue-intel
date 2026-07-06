@@ -1,6 +1,6 @@
 # Power BI Dashboard Guide
 
-**Scope:** Pages 1–4 — Executive, Cohort, RFM Segmentation, Revenue Concentration & At-Risk  
+**Scope:** Pages 1–6 — Executive, Cohort, RFM, At-Risk, Product & Market, Retention Action Plan  
 **Data source:** CSV exports from `python scripts/export_powerbi_marts.py`  
 **Refresh path:** Postgres marts → `data/marts/*.csv` → Power BI
 
@@ -16,6 +16,7 @@ python scripts/run_kpi_marts.py
 python scripts/run_cohort_retention.py
 python scripts/run_rfm_segmentation.py
 python scripts/run_revenue_at_risk.py
+python scripts/run_product_market_analysis.py
 python scripts/export_powerbi_marts.py
 ```
 
@@ -215,6 +216,104 @@ Exported files live in `data/marts/`. Manifest: `data/processed/powerbi_export_m
 
 ---
 
+## Page 5 — Product & Market Performance
+
+### Data tables
+
+| Table | File | Grain |
+|-------|------|-------|
+| Product performance | `mart_product_performance.csv` | One row per `stock_code` (5,304) |
+| Country performance | `mart_country_performance.csv` | One row per `country` (43) |
+
+### Key columns
+
+| Table | Column | Use |
+|-------|--------|-----|
+| Product | `stock_code`, `description` | SKU labels |
+| Product | `total_revenue`, `total_quantity` | Non-canceled sales |
+| Product | `cancellation_rate` | % of lines canceled per SKU |
+| Country | `total_revenue`, `total_orders` | Market size |
+| Country | `active_customers` | Reach per country |
+
+### Recommended visuals
+
+| Visual | Fields | Notes |
+|--------|--------|-------|
+| Bar chart — Top 15 products | Axis: `stock_code`, Values: `total_revenue` | Filter out admin codes (`M`, `D`, `S`, `DOT`) |
+| Card — Top product revenue | Max `total_revenue` | **£344,069.30** (`22423`) |
+| Card — Distinct products | Count `stock_code` | **5,304** |
+| Card — UK revenue share | UK revenue / total country revenue | **85.06%** |
+| Map or bar — Revenue by country | Axis: `country`, Values: `total_revenue` | Highlight UK vs international |
+| Scatter — Product quality | X: `total_quantity`, Y: `cancellation_rate`, Size: `total_revenue` | Spot high-volume high-cancel SKUs |
+| Table — Country detail | `country`, revenue, orders, customers | Export for market planning |
+
+### Locked headline numbers
+
+| Metric | Value |
+|--------|-------|
+| Products in mart | 5,304 |
+| Countries in mart | 43 |
+| Top product (`22423`) | £344,069.30 |
+| Top country (United Kingdom) | £17,655,379.79 |
+| UK revenue share | 85.06% |
+| 2nd market (EIRE) | £664,050.09 |
+| 3rd market (Netherlands) | £554,230.69 |
+
+### Interpretation
+
+- Revenue is highly UK-concentrated — international markets are small but diversified across **42** non-UK countries.
+- Filter administrative stock codes before ranking “real” products.
+- Pair high-cancellation SKUs with operations review — see [product_market_notes.md](product_market_notes.md).
+
+---
+
+## Page 6 — Retention Action Plan
+
+### Data tables
+
+Use summary cards fed by existing marts plus a static **recommendations** table (copy from [recommendations.md](recommendations.md) or a small Excel/CSV).
+
+| Table | File | Use on page |
+|-------|------|-------------|
+| Executive KPIs | `mart_executive_kpis.csv` | Benchmark cards (repeat rate, AOV) |
+| Revenue at risk | `mart_revenue_at_risk.csv` | Win-back priority list |
+| Customer RFM | `mart_customer_rfm.csv` | Segment counts for actions |
+| Cohort retention | `mart_cohort_retention.csv` | Month-3 benchmark line |
+
+### Recommended layout
+
+| Section | Content | Locked reference |
+|---------|---------|------------------|
+| **Priority 1 — Win-back** | Table: top 20 at-risk by `historical_revenue` | £179,135.53 recoverable (10%) |
+| **Priority 2 — VIP retention** | Cards: Champions **1,343**, Cannot Lose Them **265** | Top 10% = 64.04% revenue |
+| **Priority 3 — One-time buyers** | Card: one-time rate **27.65%**; cohort month-3 **21.61%** | 1,626 single-order customers |
+| **Priority 4 — Product quality** | Top 10 high-cancel SKUs (from page 5) | Focus SKUs >20% cancel |
+| **Priority 5 — International** | Bar: non-UK countries | 15% non-UK revenue today |
+| **Timeline** | Matrix: Initiative × Q1/Q2/Q3/Q4 status | Manual status field |
+
+### Recommended visuals
+
+| Visual | Fields | Notes |
+|--------|--------|-------|
+| KPI cards row | Repeat rate, revenue at risk, recoverable 10%, month-3 retention | Executive snapshot |
+| Table — Action plan | Priority, action, owner, est. £ impact | From recommendations doc |
+| Donut — Revenue at risk by window | `inactivity_window`, sum `historical_revenue` | 90d / 120d / 180d |
+| Bar — RFM segments to target | `customer_segment`, count | At Risk, Cannot Lose Them, New Customers |
+
+### Locked headline numbers (action plan)
+
+| Initiative | Est. impact |
+|------------|-------------|
+| Win-back (10% scenario) | £179,135.53 |
+| VIP retention (30% defend) | £540,000+ |
+| One-time buyer conversion | £380,000+ |
+| Cancellation reduction | £50,000–£100,000 |
+| International 5% uplift | £115,000+ |
+
+Full narrative and evidence: [recommendations.md](recommendations.md).
+
+---
+
 ## File layout
 
 ```
@@ -225,7 +324,9 @@ dashboard/
     ├── page1_executive_overview.png             # add after build
     ├── page2_cohort_retention.png
     ├── page3_rfm_segmentation.png
-    └── page4_revenue_at_risk.png
+    ├── page4_revenue_at_risk.png
+    ├── page5_product_market.png
+    └── page6_action_plan.png
 ```
 
 ---
@@ -236,3 +337,5 @@ dashboard/
 - [Cohort Analysis Notes](cohort_analysis_notes.md)
 - [RFM Analysis Notes](rfm_analysis_notes.md)
 - [Revenue at Risk Notes](revenue_at_risk_notes.md)
+- [Product & Market Notes](product_market_notes.md)
+- [Executive Recommendations](recommendations.md)

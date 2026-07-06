@@ -108,6 +108,17 @@ RISK_INACTIVE_180D_COUNT = 164
 RISK_TOP_1PCT_REVENUE_SHARE = 32.0164
 RISK_TOP_10PCT_REVENUE_SHARE = 64.0410
 
+# Day 12 product & country contracts
+MART_PRODUCT_PERFORMANCE_ROWS = 5_304
+MART_COUNTRY_PERFORMANCE_ROWS = 43
+PRODUCT_TOP_STOCK_CODE = "22423"
+PRODUCT_TOP_REVENUE = 344_069.3000
+PRODUCT_TOP_CANCELLATION_RATE = 7.8583
+COUNTRY_TOP = "United Kingdom"
+COUNTRY_TOP_REVENUE = 17_655_379.7870
+COUNTRY_TOP_ORDERS = 33_546
+UK_REVENUE_SHARE_PCT = 85.0648
+
 # Day 5 validation contracts
 DQ_CHECK_COUNT = 27
 MISSING_CUSTOMER_REVENUE_GBP = 2_638_407.51
@@ -125,8 +136,8 @@ DQ_CHECK_NAMES = [
     "cohort_month_zero_retention_mismatch",
     "mart_customer_rfm_rows",
     "mart_revenue_at_risk_rows",
-    "mart_product_performance_empty",
-    "mart_country_performance_empty",
+    "mart_product_performance_rows",
+    "mart_country_performance_rows",
     "missing_customer_lines",
     "canceled_lines",
     "return_lines",
@@ -149,12 +160,11 @@ POPULATED_MARTS = {
     "mart_cohort_retention": COHORT_RETENTION_ROWS,
     "mart_customer_rfm": MART_CUSTOMER_RFM_ROWS,
     "mart_revenue_at_risk": MART_REVENUE_AT_RISK_ROWS,
+    "mart_product_performance": MART_PRODUCT_PERFORMANCE_ROWS,
+    "mart_country_performance": MART_COUNTRY_PERFORMANCE_ROWS,
 }
 
-EMPTY_FUTURE_MARTS = [
-    "mart_product_performance",
-    "mart_country_performance",
-]
+EMPTY_FUTURE_MARTS: list[str] = []
 
 WEEK1_SCRIPTS = [
     "scripts/download_or_import_data.py",
@@ -168,6 +178,7 @@ WEEK1_SCRIPTS = [
     "scripts/run_cohort_retention.py",
     "scripts/run_rfm_segmentation.py",
     "scripts/run_revenue_at_risk.py",
+    "scripts/run_product_market_analysis.py",
 ]
 
 WEEK1_SQL_FILES = [
@@ -178,6 +189,7 @@ WEEK1_SQL_FILES = [
     "sql/05_cohort_retention.sql",
     "sql/06_rfm_segmentation.sql",
     "sql/07_revenue_at_risk.sql",
+    "sql/08_product_market_analysis.sql",
 ]
 
 WEEK1_DOCS = [
@@ -189,11 +201,12 @@ WEEK1_DOCS = [
     "docs/cohort_analysis_notes.md",
     "docs/rfm_analysis_notes.md",
     "docs/revenue_at_risk_notes.md",
+    "docs/product_market_notes.md",
+    "docs/recommendations.md",
     "docs/powerbi_dashboard_guide.md",
 ]
 
 DAY8_PLUS_FILES = [
-    "sql/08_product_market_analysis.sql",
     "sql/09_executive_summary.sql",
     "dashboard/Retail_Retention_Revenue_Intelligence.pbix",
 ]
@@ -210,6 +223,7 @@ PORT_SCAN_PATHS = [
     "scripts/run_cohort_retention.py",
     "scripts/run_rfm_segmentation.py",
     "scripts/run_revenue_at_risk.py",
+    "scripts/run_product_market_analysis.py",
     "scripts/export_powerbi_marts.py",
 ]
 

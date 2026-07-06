@@ -59,6 +59,19 @@ POWERBI_PAGE4_MARTS = [
 ]
 
 
+POWERBI_PAGE5_MARTS = [
+    "mart_product_performance",
+    "mart_country_performance",
+]
+
+POWERBI_PAGE6_MARTS = [
+    "mart_executive_kpis",
+    "mart_revenue_at_risk",
+    "mart_customer_rfm",
+    "mart_cohort_retention",
+]
+
+
 def export_mart(engine: Engine, table_name: str, output_dir: Path = MARTS_DIR) -> Path | None:
     with engine.connect() as conn:
         row_count = conn.execute(text(f"SELECT COUNT(*) FROM {table_name}")).scalar()
@@ -116,6 +129,16 @@ def export_powerbi_marts(
                 "page_number": 4,
                 "required_marts": POWERBI_PAGE4_MARTS,
                 "guide": "docs/powerbi_dashboard_guide.md#page-4--revenue-concentration--at-risk-customers",
+            },
+            "product_market_performance": {
+                "page_number": 5,
+                "required_marts": POWERBI_PAGE5_MARTS,
+                "guide": "docs/powerbi_dashboard_guide.md#page-5--product--market-performance",
+            },
+            "retention_action_plan": {
+                "page_number": 6,
+                "required_marts": POWERBI_PAGE6_MARTS,
+                "guide": "docs/powerbi_dashboard_guide.md#page-6--retention-action-plan",
             },
         },
     }

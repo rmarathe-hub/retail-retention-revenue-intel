@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** Power BI pages 1–4 — executive, cohort, RFM, and at-risk build guides ready
+**Status:** Power BI pages 1–6 — executive, cohort, RFM, at-risk, product/market, and action plan build guides ready
 
 ---
 
@@ -55,7 +55,7 @@ flowchart LR
 ## Dashboard Preview
 
 Build guide: [docs/powerbi_dashboard_guide.md](docs/powerbi_dashboard_guide.md)  
-Pages **1–4** (Executive, Cohort, RFM, At-Risk) are documented; screenshots added after Power BI Desktop build.
+Pages **1–6** are documented; screenshots added after Power BI Desktop build.
 
 | Page | Focus | Status |
 |------|--------|--------|
@@ -63,8 +63,8 @@ Pages **1–4** (Executive, Cohort, RFM, At-Risk) are documented; screenshots ad
 | 2 | Cohort Retention | Guide + CSV exports ready |
 | 3 | RFM Customer Segmentation | Guide + CSV exports ready |
 | 4 | Revenue Concentration & At-Risk Customers | Guide + CSV exports ready |
-| 5 | Product & Market Performance | Planned |
-| 6 | Retention Action Plan | Planned |
+| 5 | Product & Market Performance | Guide + CSV exports ready |
+| 6 | Retention Action Plan | Guide + CSV exports ready |
 
 ---
 
@@ -77,6 +77,7 @@ Locked metrics from SQL marts (reference date 2011-12-09):
 - Top **10%** of customers account for **64.04%** of customer-attributed revenue
 - High-value inactive customers represent **£179,135.53** in potential reactivation revenue (10% scenario)
 - Month-3 cohort retention averaged **21.61%**; month-3 revenue retention **26.44%**
+- **85.06%** of country-attributed revenue is United Kingdom; top product SKU **22423** drives **£344,069**
 - Cancellation lines represent **1.84%** of all staging transaction lines
 
 ---
@@ -99,6 +100,7 @@ retail_retention_revenue_intel/
 │   ├── run_cohort_retention.py     # Cohort retention mart
 │   ├── run_rfm_segmentation.py     # RFM segmentation mart
 │   ├── run_revenue_at_risk.py      # Revenue-at-risk mart
+│   ├── run_product_market_analysis.py  # Product & country marts
 │   └── export_powerbi_marts.py     # Export marts + Power BI manifest
 ├── sql/
 │   ├── 01_schema.sql
@@ -143,10 +145,10 @@ python scripts/run_kpi_marts.py         # Executive KPI + revenue marts
 python scripts/run_cohort_retention.py  # Cohort retention mart
 python scripts/run_rfm_segmentation.py  # RFM segmentation mart
 python scripts/run_revenue_at_risk.py   # Revenue-at-risk mart
+python scripts/run_product_market_analysis.py  # Product & country marts
 python scripts/export_powerbi_marts.py  # Export marts + manifest for Power BI
 
 # 3. SQL marts — or use run_* scripts above
-# psql -f sql/08_product_market_analysis.sql
 # ... 09 executive summary (later)
 ```
 
@@ -164,6 +166,7 @@ python scripts/run_kpi_marts.py
 python scripts/run_cohort_retention.py
 python scripts/run_rfm_segmentation.py
 python scripts/run_revenue_at_risk.py
+python scripts/run_product_market_analysis.py
 pytest -q -m "db"
 ```
 
@@ -198,7 +201,7 @@ Full details: [docs/data_quality_report.md](docs/data_quality_report.md) and [do
 
 ## Recommendations
 
-Prioritized retention actions with estimated impact — [docs/recommendations.md](docs/recommendations.md) (Day 13).
+Prioritized retention actions with estimated impact — [docs/recommendations.md](docs/recommendations.md).
 
 ---
 

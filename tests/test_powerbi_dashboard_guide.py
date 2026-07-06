@@ -28,6 +28,13 @@ POWERBI_GUIDE_SNIPPETS = [
     "1,343",
     "1,791,355",
     "32.02%",
+    "85.06%",
+    "mart_product_performance.csv",
+    "mart_country_performance.csv",
+    "Product & Market Performance",
+    "Retention Action Plan",
+    "5,304",
+    "344,069",
 ]
 
 DASHBOARD_README_SNIPPETS = [
@@ -35,6 +42,8 @@ DASHBOARD_README_SNIPPETS = [
     "Cohort Retention",
     "RFM Customer Segmentation",
     "Revenue Concentration & At-Risk",
+    "Product & Market Performance",
+    "Retention Action Plan",
     "powerbi_dashboard_guide.md",
     "powerbi_export_manifest.json",
     "screenshots",
@@ -74,6 +83,7 @@ def test_readme_links_powerbi_dashboard_guide(readme_text: str) -> None:
     assert "Guide + CSV exports ready" in readme_text
     assert "RFM Customer Segmentation" in readme_text
     assert "Revenue Concentration & At-Risk" in readme_text
+    assert "Product & Market Performance" in readme_text
 
 
 @pytest.mark.unit
@@ -86,4 +96,9 @@ def test_export_module_declares_powerbi_page_marts(project_root) -> None:
     assert module.POWERBI_PAGE2_MARTS == ["mart_cohort_retention"]
     assert module.POWERBI_PAGE3_MARTS == ["mart_customer_rfm"]
     assert module.POWERBI_PAGE4_MARTS == ["mart_revenue_at_risk", "mart_customer_orders"]
+    assert module.POWERBI_PAGE5_MARTS == [
+        "mart_product_performance",
+        "mart_country_performance",
+    ]
+    assert "mart_executive_kpis" in module.POWERBI_PAGE6_MARTS
     assert module.MANIFEST_PATH.name == "powerbi_export_manifest.json"
