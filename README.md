@@ -1,5 +1,7 @@
 # Retail Retention & Revenue Intelligence
 
+[![CI](https://github.com/rmarathe-hub/retail-retention-revenue-intel/actions/workflows/ci.yml/badge.svg)](https://github.com/rmarathe-hub/retail-retention-revenue-intel/actions/workflows/ci.yml)
+
 **Portfolio case study** — end-to-end retention and revenue analytics on **1,067,371** real UCI Online Retail II transactions (Dec 2009 – Dec 2011) for a UK giftware retailer.
 
 Built with **Python**, **SQL**, **Postgres**, and **Power BI** to answer: *Who returns? Who goes inactive? Where is revenue concentrated? What should marketing and leadership do next?*
@@ -9,7 +11,8 @@ Built with **Python**, **SQL**, **Postgres**, and **Power BI** to answer: *Who r
 | **Dataset** | [UCI Online Retail II](https://archive.ics.uci.edu/dataset/502/online+retail+ii) |
 | **Valid customers** | 5,881 (non-null ID, ≥1 non-canceled order) |
 | **Customer-attributed revenue** | £17,685,460.64 |
-| **SQL marts** | 8 populated tables · 27 automated DQ checks |
+| **SQL marts** | 8 populated tables · 27 automated data quality checks |
+| **Tests** | 1,000+ pytest cases · [GitHub Actions CI](docs/ci.md) on every push |
 | **Dashboard** | 6-page Power BI model (build guide + CSV exports ready) |
 
 ---
@@ -24,8 +27,8 @@ A UK online retailer had years of transaction history but no unified view of **r
 
 1. **Ingest & profile** — 1M+ raw rows; documented 22.77% missing customer IDs, cancellations, returns, duplicates  
 2. **Clean & load** — Python deduplication and flagging → Docker Postgres (`localhost:5433`) → `stg_transactions` + dims  
-3. **Model in SQL** — Eight analytical marts (cohort retention, RFM, revenue-at-risk, product/market) with locked definitions in [docs/metric_definitions.md](docs/metric_definitions.md)  
-4. **Validate** — `python scripts/validate_data.py` runs 27 row-count and logic checks  
+3. **Model in SQL** — Eight analytical marts (cohort retention, RFM segmentation, revenue-at-risk, product/market) with locked definitions in [docs/metric_definitions.md](docs/metric_definitions.md)  
+4. **Validate** — `python scripts/validate_data.py` runs 27 SQL data quality checks  
 5. **Visualize** — Export marts to CSV → 6-page executive dashboard ([build guide](docs/powerbi_dashboard_guide.md))
 
 **Data lineage:** `raw` → `stg_transactions` → `dim_*` → `mart_*` → Power BI
@@ -108,7 +111,7 @@ When screenshots exist, embed in this README:
 - **SQL** — analytical logic (25+ queries across 8 mart scripts)  
 - **Postgres** — Docker data warehouse on host port **5433**  
 - **Power BI** — 6-page executive dashboard  
-- **pytest** — 1,000+ automated contract and integration tests  
+- **pytest** — 1,000+ automated contract and integration tests ([CI](docs/ci.md): `not db and not network and not data`)  
 - **GitHub** — [retail-retention-revenue-intel](https://github.com/rmarathe-hub/retail-retention-revenue-intel)
 
 ---
@@ -155,6 +158,8 @@ python scripts/export_powerbi_marts.py
 pytest -q -m "db"
 ```
 
+**CI (GitHub Actions):** `pytest -q -m "not db and not network and not data"` — see [docs/ci.md](docs/ci.md).
+
 Postgres setup: [docs/postgres_setup.md](docs/postgres_setup.md) (host **5433**, not 5432).
 
 ---
@@ -179,6 +184,7 @@ Validation: `02_data_quality_checks.sql` via `validate_data.py`
 | Doc | Purpose |
 |-----|---------|
 | [portfolio_case_study.md](docs/portfolio_case_study.md) | Interview-ready STAR narrative |
+| [ci.md](docs/ci.md) | GitHub Actions and local test matrix |
 | [business_problem.md](docs/business_problem.md) | Stakeholders and success criteria |
 | [metric_definitions.md](docs/metric_definitions.md) | Locked KPI and mart definitions |
 | [recommendations.md](docs/recommendations.md) | Prioritized actions with £ impact |

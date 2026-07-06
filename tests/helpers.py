@@ -204,6 +204,7 @@ WEEK1_DOCS = [
     "docs/product_market_notes.md",
     "docs/recommendations.md",
     "docs/portfolio_case_study.md",
+    "docs/ci.md",
     "docs/powerbi_dashboard_guide.md",
 ]
 
@@ -238,6 +239,9 @@ FORBIDDEN_HOST_PORT_PATTERNS = [
 
 PROJECT_NAME = "Retail Retention & Revenue Intelligence"
 GITHUB_REPO = "retail-retention-revenue-intel"
+
+CI_WORKFLOW_PATH = ".github/workflows/ci.yml"
+CI_PYTEST_MARKERS = "not db and not network and not data"
 
 CLEAN_COLUMNS = [
     "invoice_no",
