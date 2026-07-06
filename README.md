@@ -2,7 +2,7 @@
 
 End-to-end retail analytics platform on **1M+ real online transaction records** — cohort retention, RFM segmentation, revenue concentration, and customer inactivity analysis with executive recommendations.
 
-**Status:** Power BI executive and cohort pages — data export and build guide ready
+**Status:** Power BI pages 1–4 — executive, cohort, RFM, and at-risk build guides ready
 
 ---
 
@@ -55,14 +55,14 @@ flowchart LR
 ## Dashboard Preview
 
 Build guide: [docs/powerbi_dashboard_guide.md](docs/powerbi_dashboard_guide.md)  
-Pages **1–2** (Executive + Cohort) are documented; screenshots added after Power BI Desktop build.
+Pages **1–4** (Executive, Cohort, RFM, At-Risk) are documented; screenshots added after Power BI Desktop build.
 
 | Page | Focus | Status |
 |------|--------|--------|
 | 1 | Executive Revenue Overview | Guide + CSV exports ready |
 | 2 | Cohort Retention | Guide + CSV exports ready |
-| 3 | RFM Customer Segmentation | Planned |
-| 4 | Revenue Concentration & At-Risk Customers | Planned |
+| 3 | RFM Customer Segmentation | Guide + CSV exports ready |
+| 4 | Revenue Concentration & At-Risk Customers | Guide + CSV exports ready |
 | 5 | Product & Market Performance | Planned |
 | 6 | Retention Action Plan | Planned |
 
@@ -73,6 +73,7 @@ Pages **1–2** (Executive + Cohort) are documented; screenshots added after Pow
 Locked metrics from SQL marts (reference date 2011-12-09):
 
 - **72.35%** of attributable customers are repeat buyers (2+ non-canceled orders)
+- **1,343 Champions** and **543 At Risk** RFM segments among 5,881 valid customers
 - Top **10%** of customers account for **64.04%** of customer-attributed revenue
 - High-value inactive customers represent **£179,135.53** in potential reactivation revenue (10% scenario)
 - Month-3 cohort retention averaged **21.61%**; month-3 revenue retention **26.44%**

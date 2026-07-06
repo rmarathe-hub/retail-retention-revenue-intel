@@ -49,6 +49,15 @@ POWERBI_PAGE2_MARTS = [
     "mart_cohort_retention",
 ]
 
+POWERBI_PAGE3_MARTS = [
+    "mart_customer_rfm",
+]
+
+POWERBI_PAGE4_MARTS = [
+    "mart_revenue_at_risk",
+    "mart_customer_orders",
+]
+
 
 def export_mart(engine: Engine, table_name: str, output_dir: Path = MARTS_DIR) -> Path | None:
     with engine.connect() as conn:
@@ -97,6 +106,16 @@ def export_powerbi_marts(
                 "page_number": 2,
                 "required_marts": POWERBI_PAGE2_MARTS,
                 "guide": "docs/powerbi_dashboard_guide.md#page-2--cohort-retention",
+            },
+            "rfm_segmentation": {
+                "page_number": 3,
+                "required_marts": POWERBI_PAGE3_MARTS,
+                "guide": "docs/powerbi_dashboard_guide.md#page-3--rfm-customer-segmentation",
+            },
+            "revenue_concentration_at_risk": {
+                "page_number": 4,
+                "required_marts": POWERBI_PAGE4_MARTS,
+                "guide": "docs/powerbi_dashboard_guide.md#page-4--revenue-concentration--at-risk-customers",
             },
         },
     }

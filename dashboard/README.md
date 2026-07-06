@@ -8,8 +8,8 @@ Power BI workbook and screenshots for the Retail Retention & Revenue Intelligenc
 |------|------|--------|
 | 1 | Executive Revenue Overview | **Build guide ready** — see [powerbi_dashboard_guide.md](../docs/powerbi_dashboard_guide.md) |
 | 2 | Cohort Retention | **Build guide ready** |
-| 3 | RFM Customer Segmentation | Planned |
-| 4 | Revenue Concentration & At-Risk | Planned |
+| 3 | RFM Customer Segmentation | **Build guide ready** |
+| 4 | Revenue Concentration & At-Risk | **Build guide ready** |
 | 5 | Product & Market Performance | Planned |
 | 6 | Retention Action Plan | Planned |
 

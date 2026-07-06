@@ -12,7 +12,9 @@ from tests.helpers import (
     COHORT_RETENTION_ROWS,
     EXECUTIVE_KPI_COUNT,
     MART_CUSTOMER_ORDERS_ROWS,
+    MART_CUSTOMER_RFM_ROWS,
     MART_MONTHLY_REVENUE_ROWS,
+    MART_REVENUE_AT_RISK_ROWS,
     POPULATED_MARTS,
     skip_if_missing,
 )
@@ -23,6 +25,8 @@ EXPORT_MART_COUNTS = {
     "mart_monthly_revenue.csv": MART_MONTHLY_REVENUE_ROWS,
     "mart_customer_orders.csv": MART_CUSTOMER_ORDERS_ROWS,
     "mart_cohort_retention.csv": COHORT_RETENTION_ROWS,
+    "mart_customer_rfm.csv": MART_CUSTOMER_RFM_ROWS,
+    "mart_revenue_at_risk.csv": MART_REVENUE_AT_RISK_ROWS,
 }
 
 
@@ -94,6 +98,10 @@ def test_exported_csv_row_counts(marts_dir: Path, filename: str, expected_rows: 
         ("mart_customer_orders.csv", "is_repeat_customer"),
         ("mart_cohort_retention.csv", "retention_rate"),
         ("mart_cohort_retention.csv", "months_since_first_purchase"),
+        ("mart_customer_rfm.csv", "customer_segment"),
+        ("mart_customer_rfm.csv", "rfm_score"),
+        ("mart_revenue_at_risk.csv", "inactivity_window"),
+        ("mart_revenue_at_risk.csv", "potential_recoverable_revenue"),
     ],
 )
 def test_exported_csv_required_columns(
